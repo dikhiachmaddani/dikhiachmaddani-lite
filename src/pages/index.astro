@@ -1,11 +1,69 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Layout from '@/layouts/Layout.astro';
+import background from '@/assets/background.jpg';
+import WorkExperienceSection from '@/components/section/WorkExperienceSection.astro';
+import { workExperiences } from '@/common/data/work-experiences';
+import sites from '@/common/data/sites';
 ---
 
-<Layout>
-	<Welcome />
+<Layout
+    seo={{
+        title: 'Full Stack Developer',
+        description:
+            'Magoten Space is a Design and development agency that provides a variety of services to help you grow your business.',
+        keywords: [
+            'Frontend Developer',
+            'Backend Developer',
+            'Full Stack Developer',
+            'Web Developer',
+            'Typescript',
+            'React',
+            'Next JS',
+            'Java',
+            'Springboot',
+        ],
+    }}
+>
+    <section class="fixed left-0 right-0 top-0 grid grid-cols-11">
+        <div class="col-span-5">
+            <div class="w-full h-2 bg-[#0C3F33]"></div>
+        </div>
+        <div class="col-span-1">
+            <div class="w-full flex justify-evenly">
+                <div class="h-10 w-[1px] bg-[#0C3F33]"></div>
+                <div class="h-12 w-[1px] bg-[#0C3F33]"></div>
+                <div class="h-14 w-[1px] bg-[#0C3F33]"></div>
+                <div class="h-16 w-[1px] bg-[#0C3F33]"></div>
+                <div class="h-16 w-[1px] bg-[#B8021C]"></div>
+                <div class="h-14 w-[1px] bg-[#B8021C]"></div>
+                <div class="h-12 w-[1px] bg-[#B8021C]"></div>
+                <div class="h-10 w-[1px] bg-[#B8021C]"></div>
+            </div>
+        </div>
+        <div class="col-span-5">
+            <div class="w-full h-2 bg-[#B8021C]"></div>
+        </div>
+    </section>
+
+    <main class="max-w-4xl mx-auto h-full my-16">
+        <section class="grid grid-cols-12 items-center">
+            <div class="col-span-9 flex flex-col gap-3">
+                <h1 class="font-bold text-2xl text-[#0C3F33] tracking-wider">Dikhi Achmad Dani</h1>
+                <p>Software Engineer, Open Source Enthusiast, and a lifetime learner. I love to build things that solves problems and make people's life easier. Great to see you here! :)</p>
+                <div class="flex gap-2">
+                    <a href={`mailto:${sites.email}`} class="border-[1px] border-[#0C3F33] text-[#0C3F33] rounded-md h-7 w-7 flex justify-center items-center"><span class="icon-[iconoir--mail-in]"></span></a>
+                    <a href={sites.github} class="border-[1px] border-[#0C3F33] text-[#0C3F33] rounded-md h-7 w-7 flex justify-center items-center"><span class="icon-[line-md--github]"></span></a>
+                    <a href={sites.linkedin} class="border-[1px] border-[#0C3F33] text-[#0C3F33] rounded-md h-7 w-7 flex justify-center items-center"><span class="icon-[mdi--linkedin]"></span></a>
+                </div>
+            </div>
+            <div class="col-span-3 flex justify-end">
+                <div class="relative w-32 h-32 rounded-full overflow-hidden">
+                    <img class="absolute w-full h-full object-cover" src={background.src} alt="">
+                </div>
+            </div>
+        </section>
+        <hr class="my-8 border-dashed" />
+		<WorkExperienceSection workExperiences={workExperiences} />
+
+    </main>
 </Layout>

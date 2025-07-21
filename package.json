@@ -9,6 +9,17 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.12.0"
+    "@astrojs/svelte": "^7.1.0",
+    "@astrojs/ts-plugin": "^1.10.4",
+    "@tailwindcss/vite": "^4.1.11",
+    "astro": "^5.12.0",
+    "sass": "^1.89.2",
+    "svelte": "^5.36.12",
+    "tailwindcss": "^4.1.11",
+    "typescript": "^5.8.3"
+  },
+  "devDependencies": {
+    "@iconify/json": "^2.2.360",
+    "@iconify/tailwind4": "^1.0.6"
   }
 }

@@ -1,0 +1,69 @@
+---
+import type { WorkExperience } from '@/domain/work-experience';
+
+interface Props {
+    workExperiences: WorkExperience[];
+}
+
+const { workExperiences } = Astro.props;
+---
+
+<section>
+    <h2 class="text-2xl font-bold text-[#0C3F33] pb-4">Work Experience</h2>
+    <div class="flex flex-col gap-10">
+        {
+            workExperiences.map((experience) => (
+                <div>
+                    <div class="flex flex-col ">
+                        <div class="flex items-center">
+                            <p class="text-sm capitalize rounded-t-lg border-[1px] bg-[#0C3F33] text-white px-3 pt-[1px]">
+                                {experience.type}
+                            </p>
+                            <p class="text-sm capitalize rounded-t-lg border-[1px] bg-[#B8021C] text-white px-3 pt-[1px]">
+                                {experience.time}
+                            </p>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-lg font-bold text-[#0C3F33] capitalize">
+                                {experience.company}
+                            </h2>
+                            <h2 class="text-base font-semibold text-[#0C3F33] capitalize">
+                                {experience.period[0].toLocaleDateString(
+                                    'en-GB',
+                                    { month: 'short', year: 'numeric' },
+                                )}
+                                -
+                                {experience.period[1] === null
+                                    ? 'Present'
+                                    : experience.period[1].toLocaleDateString(
+                                          'en-GB',
+                                          { month: 'short', year: 'numeric' },
+                                      )}
+                            </h2>
+                        </div>
+                        <p class="capitalize">{experience.position}</p>
+                    </div>
+                    <ul class="list-disc ml-5 mt-2">
+                        {experience.details.map((detail) => (
+                            <li>{detail}</li>
+                        ))}
+                    </ul>
+                    <div class="flex items-center gap-2 mt-2">
+                        <div class="w-7 h-7 flex items-center justify-center border-[1px] border-[#0C3F33] rounded-md mt-[3px]">
+                            <span class="icon-[game-icons--skills]" />
+                        </div>
+                        {experience.technologies.map((technology, index) => (
+                            <Fragment key={index}>
+                                <p class="leading-none">{technology}</p>
+                                {index !==
+                                    experience.technologies.length - 1 && (
+                                    <p class="leading-none">•</p>
+                                )}
+                            </Fragment>
+                        ))}
+                    </div>
+                </div>
+            ))
+        }
+    </div>
+</section>
