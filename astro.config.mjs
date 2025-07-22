@@ -5,10 +5,16 @@ import tailwindcss from '@tailwindcss/vite';
 
 import svelte from '@astrojs/svelte';
 
+import mdx from '@astrojs/mdx';
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://dikhiachmaddani.my.id',
-
+  markdown: {
+		shikiConfig: {
+			theme: "rose-pine-dawn",
+		},
+	},
   vite: {
     build: {
     cssCodeSplit: true,
@@ -24,5 +30,5 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
 
-  integrations: [svelte()]
+  integrations: [svelte(), mdx()]
 });

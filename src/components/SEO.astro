@@ -2,11 +2,12 @@
 import data from '@/common/data/sites';
 
 export type Props = {
-    title: string;
+    title?: string;
     isPost?: boolean;
     description?: string;
     keywords?: string[];
     thumbnail?: string;
+    publishedAt?: string;
 };
 
 const {
@@ -19,7 +20,7 @@ const {
 const { siteName, siteUrl } = data;
 ---
 
-<title>{siteName} - {props.title}</title>
+<title>{siteName} {props.title && `- ${props.title}`}</title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0" />
 <meta name="theme-color" content="#fff1f2" />
@@ -34,7 +35,7 @@ const { siteName, siteUrl } = data;
 
 <!-- favicon -->
 <link rel="manifest" href="/manifest.json" crossorigin="use-credentials" />
-<link rel="icon" type="image/png" href="/logo.png" />
+<link rel="icon" type="image/svg" href="/assets/logo.svg" />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />

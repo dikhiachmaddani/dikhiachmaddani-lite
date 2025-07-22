@@ -1,0 +1,3 @@
+User-agent: *
+
+sitemap: https://dikhiachmaddani.my.id/sitemap.xml

@@ -1,0 +1,86 @@
+---
+import sites from '@/common/data/sites';
+import type { PostMeta } from '@/domain/post';
+import Layout from './Layout.astro';
+
+export type Props = {
+	frontmatter: PostMeta;
+	slug: string;
+	wordCount: number;
+};
+
+const { frontmatter, slug, wordCount }: Props = Astro.props;
+
+const ogImageParams = new URLSearchParams({
+	title: frontmatter.title,
+	date: frontmatter.date.toISOString(),
+	tags: frontmatter.tags.join(','),
+	description: frontmatter.description,
+});
+---
+
+<style>
+	:global(div[data-rehype-pretty-code-fragment]) {
+		background-color: #0d1117;
+		border-radius: 0.5rem;
+	}
+</style>
+
+<Layout
+	seo={{
+		isPost: true,
+		title: frontmatter.title,
+		description: frontmatter.description,
+		keywords: frontmatter.tags,
+		thumbnail: `${sites.siteUrl}/api/og-image?${ogImageParams.toString()}`,
+		publishedAt: frontmatter.date.toISOString(),
+	}}
+>
+	<main class="max-w-3xl mx-auto h-full my-16 px-4">
+		<h1
+			class="text-center font-serif text-3xl uppercase mt-12 mb-2 font-semibold text-pink-950"
+		>
+			{frontmatter.title}
+		</h1>
+		<div
+			class="flex flex-row justify-center md:items-center gap-2 font-serif text-sm md:text-base md:leading-loose text-pink-950/70"
+		>
+			Posted on
+			<span class="text-pink-600 font-medium">
+				{
+					new Date(frontmatter.date).toLocaleDateString('en-GB', {
+						weekday: 'long',
+						day: 'numeric',
+						month: 'long',
+						year: 'numeric',
+					})
+				}
+			</span>
+			<span class="font-medium">
+				- {wordCount.toLocaleString('en-GB')} words
+			</span>
+		</div>
+		<a
+			class="block text-center relative no-underline hover:underline hover:text-pink-400 font-serif text-sm md:text-base text-pink-950/70 mb-2"
+			href={`https://github.com/elianiva/elianiva.my.id/blob/master/src/content/posts/${slug}.mdx`}
+			target="_blank"
+			rel="norel noreferrer"
+		>
+			Suggest An Edit
+		</a>
+		<div
+			class="justify-center flex gap-2 pb-4 mb-8 border-b border-dashed border-pink-300"
+		>
+			{
+				frontmatter.tags.map((tag) => (
+					<span class="font-mono text-pink-700/80 text-sm font-medium">
+						#{tag}
+					</span>
+				))
+			}
+		</div>
+		<main class="prose">
+		<slot />
+	</main>
+	</main>
+</Layout>

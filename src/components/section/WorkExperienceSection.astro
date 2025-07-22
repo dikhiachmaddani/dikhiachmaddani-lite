@@ -1,5 +1,6 @@
 ---
 import type { WorkExperience } from '@/domain/work-experience';
+import WorkExperienceCard from '../card/WorkExperienceCard.astro';
 
 interface Props {
     workExperiences: WorkExperience[];
@@ -8,77 +9,12 @@ interface Props {
 const { workExperiences } = Astro.props;
 ---
 
-<section>
+<section class="mb-4">
     <h2 class="text-2xl font-bold text-[#0C3F33] pb-4">Work Experience</h2>
     <div class="flex flex-col gap-10">
         {
             workExperiences.map((experience) => (
-                <div>
-                    <div class="flex flex-col">
-                        <div class="flex items-center gap-3 mb-1">
-                            <div class="group relative px-1.5 text-sm/6 text-[#0C3F33]">
-                                <span class="absolute inset-0 border border-dashed border-[#0C3F33]/60 bg-[#0C3F33]/10 group-hover:bg-[#0C3F33]/15"></span>
-                                {experience.type}
-                                <svg width="5" height="5" viewBox="0 0 5 5" class="absolute top-[-2px] left-[-2px] fill-[#0C3F33]"><path d="M2 0h1v2h2v1h-2v2h-1v-2h-2v-1h2z"></path></svg>
-                                <svg width="5" height="5" viewBox="0 0 5 5" class="absolute top-[-2px] right-[-2px] fill-[#0C3F33]"><path d="M2 0h1v2h2v1h-2v2h-1v-2h-2v-1h2z"></path></svg>
-                                <svg width="5" height="5" viewBox="0 0 5 5" class="absolute bottom-[-2px] left-[-2px] fill-[#0C3F33]"><path d="M2 0h1v2h2v1h-2v2h-1v-2h-2v-1h2z"></path></svg>
-                                <svg width="5" height="5" viewBox="0 0 5 5" class="absolute bottom-[-2px] right-[-2px] fill-[#0C3F33]"><path d="M2 0h1v2h2v1h-2v2h-1v-2h-2v-1h2z"></path></svg>
-                            </div>
-                            <div class="group relative px-1.5 text-sm/6 text-[#0C3F33]">
-                                <span class="absolute inset-0 border border-dashed border-[#0C3F33]/60 bg-[#0C3F33]/10 group-hover:bg-[#0C3F33]/15"></span>
-                                {experience.time}
-                                <svg width="5" height="5" viewBox="0 0 5 5" class="absolute top-[-2px] left-[-2px] fill-[#0C3F33]"><path d="M2 0h1v2h2v1h-2v2h-1v-2h-2v-1h2z"></path></svg>
-                                <svg width="5" height="5" viewBox="0 0 5 5" class="absolute top-[-2px] right-[-2px] fill-[#0C3F33]"><path d="M2 0h1v2h2v1h-2v2h-1v-2h-2v-1h2z"></path></svg>
-                                <svg width="5" height="5" viewBox="0 0 5 5" class="absolute bottom-[-2px] left-[-2px] fill-[#0C3F33]"><path d="M2 0h1v2h2v1h-2v2h-1v-2h-2v-1h2z"></path></svg>
-                                <svg width="5" height="5" viewBox="0 0 5 5" class="absolute bottom-[-2px] right-[-2px] fill-[#0C3F33]"><path d="M2 0h1v2h2v1h-2v2h-1v-2h-2v-1h2z"></path></svg>
-                            </div>
-                            {/* <p class="text-sm capitalize rounded-t-lg border-[1px] bg-[#0C3F33] text-white px-3 pt-[1px]">
-                                {experience.type}
-                            </p> */}
-                            {/* <p class="text-sm capitalize rounded-t-lg border-[1px] bg-[#B8021C] text-white px-3 pt-[1px]">
-                                {experience.time}
-                            </p> */}
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <h2 class="text-lg font-bold text-[#0C3F33] capitalize">
-                                {experience.company}
-                            </h2>
-                            <h2 class="text-base font-semibold text-[#0C3F33] capitalize">
-                                {experience.period[0].toLocaleDateString(
-                                    'en-GB',
-                                    { month: 'short', year: 'numeric' },
-                                )}
-                                -
-                                {experience.period[1] === null
-                                    ? 'Present'
-                                    : experience.period[1].toLocaleDateString(
-                                          'en-GB',
-                                          { month: 'short', year: 'numeric' },
-                                      )}
-                            </h2>
-                        </div>
-                        <p class="capitalize">{experience.position}</p>
-                    </div>
-                    <ul class="list-disc ml-5 mt-2">
-                        {experience.details.map((detail) => (
-                            <li>{detail}</li>
-                        ))}
-                    </ul>
-                    <div class="flex items-center gap-2 mt-2">
-                        <div class="w-7 h-7 flex items-center justify-center border-[1px] border-[#0C3F33] rounded-md mt-[3px]">
-                            <span class="icon-[game-icons--skills]" />
-                        </div>
-                        {experience.technologies.map((technology, index) => (
-                            <Fragment key={index}>
-                                <p class="leading-none">{technology}</p>
-                                {index !==
-                                    experience.technologies.length - 1 && (
-                                    <p class="leading-none">•</p>
-                                )}
-                            </Fragment>
-                        ))}
-                    </div>
-                </div>
+                <WorkExperienceCard experience={experience} />
             ))
         }
     </div>

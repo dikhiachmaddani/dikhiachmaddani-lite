@@ -1,0 +1,25 @@
+---
+import PostCard from '../card/PostCard.svelte';
+import type { Post } from '@/domain/post';
+
+interface Props {
+    posts: Post[];
+}
+
+const { posts } = Astro.props;
+---
+
+<section>
+    <h2 class="text-2xl font-bold text-[#0C3F33]">Blog Post's</h2>
+    <p class="text-base text-[#0C3F33]/70 pb-4">
+        Even though I don't write often, I try to share my thoughts and
+        experiences from time to time. Hope you find them useful!
+    </p>
+    <div class="grid grid-cols-12 gap-5">
+        {
+            posts.map((post) => (
+                <PostCard {...post.data} href={`/posts/${post.slug}`} />
+            ))
+        }
+    </div>
+</section>

@@ -2,6 +2,7 @@
 import SEO, { type Props as SEOProps } from '@/components/SEO.astro';
 import '@/styles/layout.scss';
 import '@/styles/global.css';
+import { ClientRouter } from 'astro:transitions';
 export interface Props {
 	seo: SEOProps;
 }
@@ -11,8 +12,29 @@ export interface Props {
 <html lang="en">
 	<head>
 		<SEO {...Astro.props.seo} />
+		<ClientRouter />
 	</head>
 	<body>
+		<section class="fixed z-10 left-0 right-0 top-0 grid grid-cols-11">
+			<div class="col-span-3 md:col-span-5">
+				<div class="w-full h-2 bg-[#0C3F33]"></div>
+			</div>
+			<div class="col-span-5 md:col-span-1">
+				<div class="w-full flex justify-evenly">
+					<div class="h-10 w-[1px] bg-[#0C3F33]"></div>
+					<div class="h-12 w-[1px] bg-[#0C3F33]"></div>
+					<div class="h-14 w-[1px] bg-[#0C3F33]"></div>
+					<div class="h-16 w-[1px] bg-[#0C3F33]"></div>
+					<div class="h-16 w-[1px] bg-[#B8021C]"></div>
+					<div class="h-14 w-[1px] bg-[#B8021C]"></div>
+					<div class="h-12 w-[1px] bg-[#B8021C]"></div>
+					<div class="h-10 w-[1px] bg-[#B8021C]"></div>
+				</div>
+			</div>
+			<div class="col-span-3 md:col-span-5">
+				<div class="w-full h-2 bg-[#B8021C]"></div>
+			</div>
+		</section>
 		<slot />
 	</body>
 </html>

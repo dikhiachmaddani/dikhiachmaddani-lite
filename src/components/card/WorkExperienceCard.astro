@@ -1,0 +1,88 @@
+---
+import type { WorkExperience } from '@/domain/work-experience';
+
+interface Props {
+    experience: WorkExperience;
+}
+
+const { experience } = Astro.props;
+---
+
+<div>
+    <div class="flex flex-col">
+        <div class="flex items-center justify-between">
+            <h2 class="text-lg font-bold text-[#0C3F33] capitalize">
+                {experience.company}
+            </h2>
+            <h2 class="text-sm font-bold text-[#0C3F33] capitalize">
+                {
+                    experience.period[0].toLocaleDateString('en-GB', {
+                        month: 'short',
+                        year: 'numeric',
+                    })
+                }
+                -
+                {
+                    experience.period[1] === null
+                        ? 'Present'
+                        : experience.period[1].toLocaleDateString('en-GB', {
+                              month: 'short',
+                              year: 'numeric',
+                          })
+                }
+            </h2>
+        </div>
+        <p class="capitalize font-medium text-[#0C3F33]">
+            {experience.position} • {experience.type} • {experience.time}
+        </p>
+    </div>
+    <ul class="list-disc ml-5 mt-2">
+        {
+            experience.details.map((detail) => (
+                <li class="font-light text-gray-/90">{detail}</li>
+            ))
+        }
+    </ul>
+    <div class="flex items-center gap-4 mt-3">
+        {
+            experience.technologies.map((technology, index) => (
+                <div class="group relative px-3 text-sm/6 text-[#0C3F33]">
+                    <span class="absolute inset-0 border border-dashed border-[#0C3F33]/60 bg-[#0C3F33]/10 group-hover:bg-[#0C3F33]/15" />
+                    {technology}
+                    <svg
+                        width="5"
+                        height="5"
+                        viewBox="0 0 5 5"
+                        class="absolute top-[-2px] left-[-2px] fill-[#0C3F33]"
+                    >
+                        <path d="M2 0h1v2h2v1h-2v2h-1v-2h-2v-1h2z" />
+                    </svg>
+                    <svg
+                        width="5"
+                        height="5"
+                        viewBox="0 0 5 5"
+                        class="absolute top-[-2px] right-[-2px] fill-[#0C3F33]"
+                    >
+                        <path d="M2 0h1v2h2v1h-2v2h-1v-2h-2v-1h2z" />
+                    </svg>
+                    <svg
+                        width="5"
+                        height="5"
+                        viewBox="0 0 5 5"
+                        class="absolute bottom-[-2px] left-[-2px] fill-[#0C3F33]"
+                    >
+                        <path d="M2 0h1v2h2v1h-2v2h-1v-2h-2v-1h2z" />
+                    </svg>
+                    <svg
+                        width="5"
+                        height="5"
+                        viewBox="0 0 5 5"
+                        class="absolute bottom-[-2px] right-[-2px] fill-[#0C3F33]"
+                    >
+                        <path d="M2 0h1v2h2v1h-2v2h-1v-2h-2v-1h2z" />
+                    </svg>
+                </div>
+            ))
+        }
+    </div>
+</div>
