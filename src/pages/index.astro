@@ -25,10 +25,10 @@ import sites from '@/common/data/sites';
     }}
 >
     <section class="fixed left-0 right-0 top-0 grid grid-cols-11">
-        <div class="col-span-5">
+        <div class="col-span-3 md:col-span-5">
             <div class="w-full h-2 bg-[#0C3F33]"></div>
         </div>
-        <div class="col-span-1">
+        <div class="col-span-5 md:col-span-1">
             <div class="w-full flex justify-evenly">
                 <div class="h-10 w-[1px] bg-[#0C3F33]"></div>
                 <div class="h-12 w-[1px] bg-[#0C3F33]"></div>
@@ -40,14 +40,14 @@ import sites from '@/common/data/sites';
                 <div class="h-10 w-[1px] bg-[#B8021C]"></div>
             </div>
         </div>
-        <div class="col-span-5">
+        <div class="col-span-3 md:col-span-5">
             <div class="w-full h-2 bg-[#B8021C]"></div>
         </div>
     </section>
 
-    <main class="max-w-4xl mx-auto h-full my-16">
-        <section class="grid grid-cols-12 items-center">
-            <div class="col-span-9 flex flex-col gap-3">
+    <main class="max-w-4xl mx-auto h-full my-16 px-4">
+        <section class="grid grid-cols-12 gap-4 items-center">
+            <div class="col-span-12 md:col-span-9 flex flex-col gap-3 order-2 md:order-1">
                 <h1 class="font-bold text-2xl text-[#0C3F33] tracking-wider">Dikhi Achmad Dani</h1>
                 <p>Software Engineer, Open Source Enthusiast, and a lifetime learner. I love to build things that solves problems and make people's life easier. Great to see you here! :)</p>
                 <div class="flex gap-2">
@@ -56,9 +56,14 @@ import sites from '@/common/data/sites';
                     <a href={sites.linkedin} class="border-[1px] border-[#0C3F33] text-[#0C3F33] rounded-md h-7 w-7 flex justify-center items-center"><span class="icon-[mdi--linkedin]"></span></a>
                 </div>
             </div>
-            <div class="col-span-3 flex justify-end">
-                <div class="relative w-32 h-32 rounded-full overflow-hidden">
-                    <img class="absolute w-full h-full object-cover" src={background.src} alt="">
+            <div class="col-span-12 md:col-span-3 flex md:justify-end order-1 md:order-2">
+                <div class="group relative w-32 h-32">
+                    <span class="absolute inset-0 border border-dashed border-[#0C3F33]/60 bg-[#0C3F33]/10 group-hover:bg-[#0C3F33]/15"></span>
+                    <img class="absolute -z-10 w-full h-full object-cover p-[1.3px]" src={background.src} alt="">
+                    <svg width="10" height="10" viewBox="0 0 5 5" class="absolute top-[-4.5px] left-[-4.5px] fill-[#0C3F33]"><path d="M2 0h1v2h2v1h-2v2h-1v-2h-2v-1h2z"></path></svg>
+                    <svg width="10" height="10" viewBox="0 0 5 5" class="absolute top-[-4.5px] right-[-4.5px] fill-[#0C3F33]"><path d="M2 0h1v2h2v1h-2v2h-1v-2h-2v-1h2z"></path></svg>
+                    <svg width="10" height="10" viewBox="0 0 5 5" class="absolute bottom-[-4.5px] left-[-4.5px] fill-[#0C3F33]"><path d="M2 0h1v2h2v1h-2v2h-1v-2h-2v-1h2z"></path></svg>
+                    <svg width="10" height="10" viewBox="0 0 5 5" class="absolute bottom-[-4.5px] right-[-4.5px] fill-[#0C3F33]"><path d="M2 0h1v2h2v1h-2v2h-1v-2h-2v-1h2z"></path></svg>
                 </div>
             </div>
         </section>
