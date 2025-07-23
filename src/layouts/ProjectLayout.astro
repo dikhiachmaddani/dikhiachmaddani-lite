@@ -2,6 +2,7 @@
 import siteData from '@/common/data/sites';
 import type { ProjectMeta } from '@/domain/project';
 import Layout from './Layout.astro';
+import BackButton from '@/components/BackButton.astro';
 
 export type Props = {
 	frontmatter: ProjectMeta;
@@ -18,91 +19,69 @@ const { frontmatter, slug } = Astro.props as Props;
 	}}
 >
 	<main class="max-w-3xl mx-auto h-full my-22 px-4">
-		<div
-			class="overflow-hidden border border-dashed border-pink-300 rounded-md"
+		<BackButton />
+
+		<h1
+			class="text-center text-3xl uppercase font-semibold text-[#0C3F33]"
 		>
+			{frontmatter.title}
+		</h1>
+		<div class="justify-center flex gap-2">
+			{
+				frontmatter.stack.map(([stackName, stackHomepage]) => (
+					<a
+						href={stackHomepage}
+						class="font-mono text-[#0C3F33]/80 text-sm font-medium no-underline hover:underline hover:text-[#0C3F33]"
+						target="_blank"
+						rel="norel noreferrer"
+					>
+						#{stackName}
+					</a>
+				))
+			}
+		</div>
+
+		<div
+			class="flex gap-2 justify-center py-4 mb-8 border-b border-dashed border-[#0C3F33]"
+		>
+			<a
+				class="text-center underline hover:text-[#0C3F33] text-sm text-[#0C3F33]/70 mb-2"
+				href={frontmatter.source}
+				target="_blank"
+				rel="norel noreferrer"
+			>
+				Source Code
+			</a>
+			{
+				frontmatter.demo !== null && (
+					<a
+						class="text-center underline hover:text-[#0C3F33] text-sm text-[#0C3F33]/70 mb-2"
+						href={frontmatter.demo}
+						target="_blank"
+						rel="norel noreferrer"
+					>
+						Live Demo
+					</a>
+				)
+			}
+		</div>
+		<div class="overflow-hidden">
 			{
 				frontmatter.hasImage ? (
 					<img
 						src={`/assets/projects/${slug}/cover.webp`}
 						alt={frontmatter.title}
-						class="block w-full h-full bg-pink-100"
+						class="block w-full h-full bg-[#0C3F33]"
 						loading="lazy"
 					/>
-				) : (
-					<div class="flex items-center justify-center w-full min-h-[200px] bg-pink-100">
-						<span class="text-pink-500 font-serif text-2xl font-semibold">
-							{frontmatter.title}
-						</span>
-					</div>
-				)
+				) : null
 			}
 		</div>
-		<div
-			class="col-start-1 col-end-3 md:col-start-1 md:col-end-2 font-serif text-lg leading-relaxed"
+
+		<main
+			class="prose prose-lg pt-4 mt-8 border-t border-dashed border-[#0C3F33]"
 		>
-			<div
-				class="flex flex-col md:flex-row gap-4 items-center justify-between mt-2 pb-4 border-b border-dashed border-pink-300"
-			>
-				<h1 class="text-pink-950 font-heading text-2xl font-semibold">
-					{frontmatter.title}
-				</h1>
-				<div class="flex gap-2">
-					<a
-						class="flex gap-1 items-center border border-dashed border-pink-300 py-1 px-2 text-pink-950 hover:text-pink-800 rounded-md"
-						href={frontmatter.source}
-						target="_blank"
-						rel="norel noreferrer"
-					>
-						Source
-					</a>
-					{
-						frontmatter.demo !== null && (
-							<a
-								class="flex gap-1 items-center border border-dashed border-pink-300 py-1 px-2 text-pink-950 hover:text-pink-800 rounded-md"
-								href={frontmatter.demo}
-								target="_blank"
-								rel="norel noreferrer"
-							>
-								Visit
-							</a>
-						)
-					}
-				</div>
-			</div>
-			<main class="prose prose-lg pslate-custom">
-				<slot />
-			</main>
-		</div>
-		<div
-			class="col-start-1 md:col-start-2 col-end-3 row-start-2 md:row-start-1 row-end-3 md:-row-end-1 w-full p-4 border-dashed border border-pink-300 rounded-md"
-		>
-			<span
-				class="block text-pink-950 font-semibold font-serif text-xl border-dashed border-b border-pink-300 pb-2"
-			>
-				Tech Stack
-			</span>
-			{
-				frontmatter.stack.map(([stackName, stackHomepage]) => (
-					<div class="grid grid-cols-[3rem_1fr] gap-2 items-center pt-3">
-						<div class="flex items-center justify-center p-2 border-dashed border border-pink-300 rounded-md bg-white overflow-hidden aspect-1">
-							<img
-								class={`w-full ${stackName.toLowerCase() === 'nextjs' ? 'filter-invert' : ''}`}
-								src={`/assets/logo/${stackName.toLowerCase().replace(/\s+/g, '-')}.png`}
-								alt={stackName}
-							/>
-						</div>
-						<a
-							href={stackHomepage}
-							class="text-pink-950 hover:text-pink-800 font-serif text-lg no-underline"
-							target="_blank"
-							rel="norel noreferrer"
-						>
-							{stackName}
-						</a>
-					</div>
-				))
-			}
-		</div>
+			<slot />
+		</main>
 	</main>
 </Layout>

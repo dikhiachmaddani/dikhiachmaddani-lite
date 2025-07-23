@@ -32,8 +32,8 @@ const { experience } = Astro.props;
                 }
             </h2>
         </div>
-        <p class="capitalize font-medium text-[#0C3F33]">
-            {experience.position} • {experience.type} • {experience.time}
+        <p class="capitalize font-light text-[#0C3F33]">
+            {experience.position} <span class="font-bold">|</span> {experience.type} <span class="font-bold">|</span> {experience.time}
         </p>
     </div>
     <ul class="list-disc ml-5 mt-2">

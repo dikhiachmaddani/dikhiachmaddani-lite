@@ -1,31 +1,44 @@
 ---
 import type { Project } from '@/domain/project';
 import ProjectCard from '../card/ProjectCard.astro';
+import BackButton from '../BackButton.astro';
 
 interface Props {
   projects: Project[];
-  seeMoreUrl: string | null;
+  title: string;
+  description: string;
 }
 
-const { projects, seeMoreUrl } = Astro.props;
+const { projects, title, description } = Astro.props;
 ---
 
 <section>
-    <h2 class="text-2xl font-bold text-[#0C3F33] mb-2">All Project's</h2>
-    <p class="text-[#0C3F33] pb-4">
-        Even though I don't write often, I try to share my thoughts and
-        experiences from time to time. Hope you find them useful!
-    </p>
-  <div
-    class="relative grid grid-cols-12 gap-5 pb-4"
-  >
-    {projects.map((project) => (
-      <ProjectCard
-        title={project.data.title}
-        description={project.data.description}
-        href={`/projects/${project.slug}`}
-        stack={project.data.stack}
-      />
-    ))}
+  {
+    Astro.url.pathname !== '/projects' ? (
+      <a
+        href="/projects"
+        class="text-2xl underline font-bold text-[#0C3F33] mb-2"
+      >
+        {title} <span class="text-base icon-[lucide--bow-arrow]" />
+      </a>
+    ) : (
+      <h1 class="text-2xl font-bold text-[#0C3F33] mb-2">{title}</h1>
+    )
+  }
+
+  <p class="text-base text-[#0C3F33]/80 pb-4 pt-2">{description}</p>
+  <div class="relative grid grid-cols-12 gap-5 pb-4">
+    {
+      projects
+        .slice(0, 6)
+        .map((project) => (
+          <ProjectCard
+            title={project.data.title}
+            description={project.data.description}
+            href={`/projects/${project.slug}`}
+            stack={project.data.stack}
+          />
+        ))
+    }
   </div>
 </section>

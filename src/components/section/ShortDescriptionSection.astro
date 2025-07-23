@@ -1,0 +1,61 @@
+---
+import HeadingSelection from '@/components/selection/HeadingSelection.astro';
+import SocialMediaSelection from '@/components/selection/SocialMediaSelection.astro';
+import type { SocialMedia } from '@/domain/social-media';
+import sites from '@/common/data/sites';
+
+const socialMedia: SocialMedia[] = [
+    {
+        link: `mailto:${sites.email}`,
+        icon: `icon-[iconoir--mail-in]`,
+    },
+    {
+        link: `${sites.github}`,
+        icon: `icon-[line-md--github]`,
+    },
+    {
+        link: `${sites.linkedin}`,
+        icon: `icon-[mdi--linkedin]`,
+    },
+];
+---
+
+<section class="grid grid-cols-12 gap-4 items-center">
+    <div
+        class="col-span-12 md:col-span-9 flex flex-col gap-3 order-2 md:order-1"
+    >
+        <div class="flex gap-1">
+            <h1
+                class="font-bold text-2xl text-[#0C3F33] tracking-wider"
+            >
+                Ciao 👋, I'm Dikhi Achmad
+            </h1>
+            <HeadingSelection text="Dani" />
+        </div>
+        <p>
+            Ordinary civilians who are still learning how to code
+            correctly and efficiently ✨. I am currently open to
+            learning anything, especially as a Fullstack Engineer.
+        </p>
+        <div class="flex gap-4">
+            {
+                socialMedia.map((media) => (
+                    <SocialMediaSelection {...media} />
+                ))
+            }
+        </div>
+    </div>
+    <div
+        class="col-span-12 md:col-span-3 flex md:justify-end order-1 md:order-2"
+    >
+        <div
+            class="relative z-0 w-32 h-32 rounded-full overflow-hidden"
+        >
+            <img
+                class="absolute w-full h-full object-cover"
+                src={'/assets/logo.svg'}
+                alt=""
+            />
+        </div>
+    </div>
+</section>

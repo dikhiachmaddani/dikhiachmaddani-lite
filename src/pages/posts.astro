@@ -1,21 +1,42 @@
 ---
-import { getCollection } from "astro:content";
-import Layout from "@/layouts/Layout.astro";
-import PostList from "@/components/PostList.svelte";
+import { getCollection } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
+import PostList from '@/components/PostList.svelte';
 
-const posts = await getCollection("posts", ({ data }) => !data.draft);
+const posts = await getCollection('posts', ({ data }) => !data.draft);
 
 // sort from latest to oldest
 posts.sort((a, b) => (a.data.date > b.data.date ? -1 : 1));
 ---
 
-<Layout seo={{ title: "Posts" }}>
-	<section class="mx-auto max-w-[920px] px-4 py-10">
-		<h1
-			class="font-serif uppercase relative inline-block text-3xl font-bold text-pink-950 my-6"
-		>
-			All Posts
-		</h1>
-		<PostList client:load posts={posts.map(({ data, slug }) => ({ ...data, slug }))} />
+<Layout seo={{ title: 'Posts' }}>
+	<section class="max-w-4xl mx-auto h-full my-16 px-4">
+		<div class="flex items-center justify-start gap-4 w-full mb-4">
+			<a
+				data-astro-prefetch
+				href="/"
+				class="flex items-center gap-1 underline text-sm text-[#0C3F33]/70"
+			>
+				<span class="icon-[fluent--arrow-reset-24-filled]"></span> Back
+			</a>
+			<a
+				data-astro-prefetch
+				href="/"
+				class="flex items-center gap-1 underline text-sm text-[#0C3F33]/70"
+			>
+				<span class="icon-[solar--home-bold-duotone]"></span> Back to Home
+			</a>
+		</div>
+		<h1 class="text-2xl font-bold text-[#0C3F33] mb-2">All Posts</h1>
+		<p class="text-base text-[#0C3F33]/80 pb-4 pt-2">
+			I don't write articles or blogs often, but here Ill share the things
+			that catch my attention and interest. I hope what I share can be
+			beneficial!
+		</p>
+		
+		<PostList
+			client:load
+			posts={posts.map(({ data, slug }) => ({ ...data, slug }))}
+		/>
 	</section>
 </Layout>

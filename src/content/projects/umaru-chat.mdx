@@ -4,6 +4,7 @@ date: 2020-09-19
 description: A realtime chat app made with React, Firebase, and Typescript
 source: https://github.com/elianiva/umaru-chat
 type: personal
+featured: true
 stack:
     - ["React", "https://reactjs.com"]
     - ["Typescript", "https://typescriptlang.org"]
@@ -12,33 +13,3 @@ stack:
 
 **Umaru Chat** is a chat app that I made to push my skillset further. I never made a fullstack app before and barely know about backend stuff so what I ended up doing is using BaaS (Backend as a Service) which is Firebase. I also want to try to make a React app using Typescript. Honestly, I proud that I'm able to make this app but at the same time I'm not really proud of this app because it's my first time and obviously the code is a mess.
 
-```nushell
-def ai [instruction] {
-  if ($instruction | is-empty) {
-    return
-  }
-
-  let key = (pass show elianiva/openrouter | str trim)
-
-  let body = {
-    model: "deepseek/deepseek-chat-v3-0324:free",
-    messages: [
-      { role: "system", content: "You are a helpful assistant that turns natural language into Nushell commands on Linux. You can only provide command with no explanations, no quotation, just plain string." }
-      { role: "user", content: $instruction }
-    ]
-  }
-
-  print "Asking AI for command suggestion..."
-  let response = (http post https://openrouter.ai/api/v1/chat/completions
-    --content-type "application/json"
-    --headers [Authorization $"Bearer ($key)" ]
-    $body)
-
-  let ai_command = $response.choices.0.message.content
-
-  # trim newline cuz that's dangerous as fuck
-  let sanitized = $ai_command | str trim
-
-  commandline edit --insert $sanitized
-}
-```

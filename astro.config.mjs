@@ -12,7 +12,7 @@ export default defineConfig({
   site: 'https://dikhiachmaddani.my.id',
   markdown: {
 		shikiConfig: {
-			theme: "rose-pine-dawn",
+			theme: "aurora-x",
 		},
 	},
   vite: {

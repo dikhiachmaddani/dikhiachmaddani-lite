@@ -71,7 +71,7 @@ function handleInput(event: Event) {
 
 <div class="relative">
 	<input
-		class="block font-serif mx-auto my-0 w-full p-3 bg-transparent border-dashed border border-pink-300 outline-none text-pink-950 placeholder:text-pink-950/70"
+		class="block font-serif mx-auto my-0 w-full p-3 bg-transparent border-dashed border border-[#0C3F33]/60 outline-none text-[#0C3F33] placeholder:text-[#0C3F33]/70"
 		id="posts__input"
 		type="text"
 		placeholder="Find post... (start with # to find tags)"
@@ -80,15 +80,17 @@ function handleInput(event: Event) {
 		oninput={handleInput}
 		bind:this={inputBox}
 	/>
+
+
 	{#if isCompletionVisible && tagSearchQuery}
 		<div
 			transition:fly={{ duration: 100, y: -50 }}
-			class="absolute top-16 left-0 right-0 z-[5] text-pink-950 bg-white p-2 border-dashed border border-pink-300"
+			class="absolute top-[66.2px] left-0 right-0 z-[100] text-[#0C3F33] bg-white p-2 border-dashed border border-[#0C3F33]/60"
 		>
 			{#if availableTags.length > 0}
 				{#each availableTags as tag}
 					<button
-						class="block text-left text-sm w-full font-mono p-2 cursor-pointer transition-property-all ease-out duration-100 hover:bg-pink-100"
+						class="block text-left text-sm w-full font-mono p-2 cursor-pointer transition-property-all ease-out duration-100 hover:bg-[#0C3F33]/10"
 						onclick={() => {
 							selectedTags.push(tag);
 							if (inputBox) inputBox.value = "";
@@ -114,7 +116,7 @@ function handleInput(event: Event) {
 	<div class="flex items-center gap-4 mt-2">
 		{#each selectedTags as tag}
 			<button
-				class="py-2 px-4 text-sm font-mono text-pink-950 border border-dashed border-pink-300"
+				class="py-2 px-4 text-sm font-mono text-[#0C3F33] border border-dashed border-[#0C3F33]/60"
 				onclick={() => {
 					selectedTags.splice(selectedTags.indexOf(tag), 1);
 				}}
@@ -124,8 +126,14 @@ function handleInput(event: Event) {
 		{/each}
 	</div>
 {/if}
-<div class="grid grid-cols-[repeat(auto-fill,minmax(16rem,1fr))] gap-5 mt-4">
-	{#each filteredPosts as post}
-		<PostCard {...post} href="/posts/{post.slug}" />
-	{/each}
+<div class="grid grid-cols-12 gap-5 mt-4">
+	{#if filteredPosts.length > 0}
+		{#each filteredPosts as post}
+			<PostCard {...post} href="/posts/{post.slug}" />
+		{/each}
+	{:else}
+		<div class="col-span-12 text-center">
+			<p class="text-sm text-[#0C3F33]/70">No posts found, try again with different tags or search query</p>
+		</div>
+	{/if}
 </div>

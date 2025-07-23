@@ -8,7 +8,7 @@ interface Props {
 
 const { title, description, href, stack } = Astro.props;
 ---
-<div class="col-span-4 relative text-sm/6 text-[#0C3F33]">
+<div class="md:col-span-4 col-span-6 group relative text-sm/6 text-[#0C3F33]">
   <span
     class="absolute inset-0 border border-dashed border-[#0C3F33]/60 bg-[#0C3F33]/10 group-hover:bg-[#0C3F33]/15"
   >
@@ -20,9 +20,11 @@ const { title, description, href, stack } = Astro.props;
       href={href}
       class="text-base font-bold"
     >
-      {title}
+      {title.length > 50 ? title.substring(0, 50) + '...' : title}
     </a>
-    <p class="my-2">{description}</p>
+    <p class="my-2">
+      {description.length > 50 ? description.substring(0, 50) + '...' : description}
+    </p>
     {
       stack.map(([name, url], index) => (
         <Fragment key={index}>

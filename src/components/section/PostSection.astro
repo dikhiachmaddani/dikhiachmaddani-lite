@@ -4,20 +4,31 @@ import type { Post } from '@/domain/post';
 
 interface Props {
     posts: Post[];
+    title: string;
+    description: string;
 }
 
-const { posts } = Astro.props;
+const { posts, title, description } = Astro.props;
 ---
 
 <section>
-    <h2 class="text-2xl font-bold text-[#0C3F33]">Blog Post's</h2>
-    <p class="text-base text-[#0C3F33]/70 pb-4">
-        Even though I don't write often, I try to share my thoughts and
-        experiences from time to time. Hope you find them useful!
-    </p>
+    {
+        Astro.url.pathname !== '/posts' ? (
+          <a
+            href="/posts"
+            class="text-2xl underline font-bold text-[#0C3F33] mb-2"
+          >
+            {title} <span class="text-base icon-[lucide--bow-arrow]" />
+          </a>
+        ) : (
+          <h1 class="text-2xl font-bold text-[#0C3F33] mb-2">{title}</h1>
+        )
+      }
+    
+      <p class="text-base text-[#0C3F33]/80 pb-4 pt-2">{description}</p>
     <div class="grid grid-cols-12 gap-5">
         {
-            posts.map((post) => (
+            posts.slice(0, 6).map((post) => (
                 <PostCard {...post.data} href={`/posts/${post.slug}`} />
             ))
         }

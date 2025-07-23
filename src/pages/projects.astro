@@ -1,22 +1,67 @@
 ---
-import { getCollection } from "astro:content";
-import ProjectSection from "@/components/section/ProjectSection.astro";
-import Layout from "@/layouts/Layout.astro";
+import { getCollection } from 'astro:content';
+import ProjectSection from '@/components/section/ProjectSection.astro';
+import Layout from '@/layouts/Layout.astro';
 
 const personalProjects = await getCollection(
-	"projects",
-	({ data }) => data.type === "personal",
+	'projects',
+	({ data }) => data.type === 'personal',
 );
 const sortedPersonalProjects = personalProjects.sort((a, b) =>
 	a.data.date > b.data.date ? -1 : 1,
 );
+
+const companyProjects = await getCollection(
+	'projects',
+	({ data }) => data.type === 'company',
+);
+const sortedCompanyProjects = companyProjects.sort((a, b) =>
+	a.data.date > b.data.date ? -1 : 1,
+);
+
+const assignmentProjects = await getCollection(
+	'projects',
+	({ data }) => data.type === 'assignment',
+);
+const sortedAssignmentProjects = assignmentProjects.sort((a, b) =>
+	a.data.date > b.data.date ? -1 : 1,
+);
 ---
 
-<Layout seo={{ title: "Projects" }}>
-	<section class="mx-auto max-w-[920px] px-4 py-10">
+<Layout seo={{ title: 'Projects' }}>
+	<section class="max-w-4xl mx-auto h-full my-16 px-4">
+		<div class="flex items-center justify-start gap-4 w-full mb-4">
+			<a
+				data-astro-prefetch
+				href="/"
+				class="flex items-center gap-1 underline text-sm text-[#0C3F33]/70"
+			>
+				<span class="icon-[fluent--arrow-reset-24-filled]"></span> Back
+			</a>
+			<a
+				data-astro-prefetch
+				href="/"
+				class="flex items-center gap-1 underline text-sm text-[#0C3F33]/70"
+			>
+				<span class="icon-[solar--home-bold-duotone]"></span> Back to Home
+			</a>
+		</div>
 		<ProjectSection
 			projects={sortedPersonalProjects}
-			seeMoreUrl={null}
+			title="Personal Projects"
+			description="These are personal projects I've created over time. Many of them were developed to improve my skills and explore new concepts."
+		/>
+
+		<ProjectSection
+			projects={sortedCompanyProjects}
+			title="Company Projects"
+			description="Here are some of the projects I've worked on for various companies. These projects helped me apply my knowledge in real-world business settings."
+		/>
+
+		<ProjectSection
+			projects={sortedAssignmentProjects}
+			title="Assignment Projects"
+			description="These projects were completed as part of academic assignments. They served as valuable learning experiences and opportunities to refine my skills."
 		/>
 	</section>
 </Layout>

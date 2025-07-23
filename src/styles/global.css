@@ -3,7 +3,7 @@
 
 @layer utilities {
 	.prose {
-		@apply text-[pink-950]/80;
+		@apply text-[#0C3F33]/80;
 	}
 
 	.prose :where(p):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
@@ -11,45 +11,45 @@
 	}
 
 	.prose :where(a):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-		@apply text-pink-500 no-underline border-b border-dashed border-pink-500;
+		@apply text-[#0C3F33] font-serif font-semibold no-underline border-b border-dashed border-[#0C3F33];
 	}
 
 	.prose
 		:where(strong):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-		@apply text-pink-600;
+		@apply text-[#0C3F33];
 	}
 
 	.prose
 		:where(code):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-		@apply text-pink-500 font-normal;
+		@apply text-[#0C3F33] font-normal;
 	}
 
 	.prose
 		:where(pre code):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-		@apply text-[#575279];
+		@apply text-[#0C3F33];
 	}
 
 	.prose :where(pre):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-		@apply border border-pink-300 border-dashed bg-white!;
+		@apply mb-2 p-4 bg-[#0C3F35]!;
 	}
 
 	.prose :where(h1):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-		@apply text-pink-800 my-2 leading-loose text-3xl;
+		@apply text-[#0C3F33] my-2 leading-loose text-xl font-bold;
 	}
 
 	.prose :where(h2):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-		@apply text-pink-800 my-2 leading-loose text-2xl;
+		@apply text-[#0C3F33] my-2 leading-loose text-lg font-semibold;
 	}
 
 	.prose :where(h3):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-		@apply text-pink-800 my-2 leading-loose text-xl;
+		@apply text-[#0C3F33] my-2 leading-loose text-base font-semibold;
 	}
 
 	.prose :where(h4):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-		@apply text-pink-800 my-2 leading-loose text-lg;
+		@apply text-[#0C3F33] my-2 leading-loose text-sm font-semibold;
 	}
 
 	.prose :where(h5):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-		@apply text-pink-800 my-2 leading-loose text-base;
+		@apply text-[#0C3F33] my-2 leading-loose text-sm font-semibold;
 	}
 }
