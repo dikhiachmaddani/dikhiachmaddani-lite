@@ -7,10 +7,9 @@ import BackButton from '@/components/BackButton.astro';
 export type Props = {
 	frontmatter: PostMeta;
 	slug: string;
-	wordCount: number;
 };
 
-const { frontmatter, slug, wordCount }: Props = Astro.props;
+const { frontmatter, slug }: Props = Astro.props;
 
 const ogImageParams = new URLSearchParams({
 	title: frontmatter.title,
@@ -58,18 +57,16 @@ const ogImageParams = new URLSearchParams({
 					})
 				}
 			</span>
-			<span class="font-medium">
-				- {wordCount.toLocaleString('en-GB')} words
-			</span>
+			
 		</div>
-		<a
+		<!-- <a
 			class="block text-center relative no-underline hover:underline hover:text-[#0C3F33] font-serif text-sm md:text-base text-[#0C3F33]/70 mb-2"
-			href={`https://github.com/elianiva/elianiva.my.id/blob/master/src/content/posts/${slug}.mdx`}
+			href={`https://github.com/dikhiachmaddani/dikhiachmaddani-lite/blob/master/src/content/posts/${slug}.mdx`}
 			target="_blank"
 			rel="norel noreferrer"
 		>
 			Suggest An Edit
-		</a>
+		</a> -->
 		<div
 			class="justify-center flex gap-2 pb-4 mb-8 border-b border-dashed border-[#0C3F33]"
 		>
