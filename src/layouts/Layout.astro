@@ -17,24 +17,122 @@ export interface Props {
 	<body>
 		<section class="fixed z-10 left-0 right-0 top-0 grid grid-cols-11">
 			<div class="col-span-4 md:col-span-5">
-				<div class="w-full h-2 bg-[#0C3F33]"></div>
+				<div id="top-left-bar" class="w-full h-2 bg-[#0C3F33] transition-all duration-300"></div>
 			</div>
 			<div class="col-span-3 md:col-span-1">
 				<div class="w-full flex justify-evenly">
-					<div class="h-10 w-[1px] bg-[#0C3F33]"></div>
-					<div class="h-12 w-[1px] bg-[#0C3F33]"></div>
-					<div class="h-14 w-[1px] bg-[#0C3F33]"></div>
-					<div class="h-16 w-[1px] bg-[#0C3F33]"></div>
-					<div class="h-16 w-[1px] bg-[#B8021C]"></div>
-					<div class="h-14 w-[1px] bg-[#B8021C]"></div>
-					<div class="h-12 w-[1px] bg-[#B8021C]"></div>
-					<div class="h-10 w-[1px] bg-[#B8021C]"></div>
+					<div class="middle-bar h-10 w-[1px] bg-[#0C3F33] transition-all duration-300"></div>
+					<div class="middle-bar h-12 w-[1px] bg-[#0C3F33] transition-all duration-300"></div>
+					<div class="middle-bar h-14 w-[1px] bg-[#0C3F33] transition-all duration-300"></div>
+					<div class="middle-bar h-16 w-[1px] bg-[#0C3F33] transition-all duration-300"></div>
+					<div class="middle-bar h-16 w-[1px] bg-[#B8021C] transition-all duration-300"></div>
+					<div class="middle-bar h-14 w-[1px] bg-[#B8021C] transition-all duration-300"></div>
+					<div class="middle-bar h-12 w-[1px] bg-[#B8021C] transition-all duration-300"></div>
+					<div class="middle-bar h-10 w-[1px] bg-[#B8021C] transition-all duration-300"></div>
 				</div>
 			</div>
 			<div class="col-span-4 md:col-span-5">
-				<div class="w-full h-2 bg-[#B8021C]"></div>
+				<div class="w-full h-2 bg-[#B8021C] transition-all duration-300"></div>
 			</div>
 		</section>
 		<slot />
+		<script>
+			let isRandomMode = false;
+			let randomTimeout: number | null = null;
+			
+			function handleScroll() {
+				if (isRandomMode) return;
+				
+				const scrollY = window.scrollY;
+				const scrollThreshold = 20;
+				
+				const bars = document.getElementsByClassName('middle-bar');
+				
+				Array.from(bars).forEach((bar) => {
+					const element = bar as HTMLElement;
+					if (element) {
+						if (scrollY > scrollThreshold) {
+							if (!element.dataset.originalHeight) {
+								element.dataset.originalHeight = element.className.match(/h-\d+/)?.[0] || 'h-10';
+							}
+							
+							element.classList.remove('h-10', 'h-12', 'h-14', 'h-16');
+							element.classList.add('h-4');
+						} else {
+							if (element.dataset.originalHeight) {
+								element.classList.remove('h-4', 'h-10', 'h-12', 'h-14', 'h-16');
+								element.classList.add(element.dataset.originalHeight);
+							}
+						}
+					}
+				});
+			}
+			
+			function setRandomHeights() {
+				const bars = document.getElementsByClassName('middle-bar');
+				const heightClasses = ['h-2', 'h-4', 'h-6', 'h-8', 'h-10', 'h-12', 'h-14', 'h-16'];
+				
+				Array.from(bars).forEach((bar) => {
+					const element = bar as HTMLElement;
+					if (element) {
+						if (!element.dataset.originalHeight) {
+							element.dataset.originalHeight = element.className.match(/h-\d+/)?.[0] || 'h-10';
+						}
+						
+						element.classList.remove('h-2', 'h-4', 'h-6', 'h-8', 'h-10', 'h-12', 'h-14', 'h-16');
+						
+						const randomHeight = heightClasses[Math.floor(Math.random() * heightClasses.length)];
+						element.classList.add(randomHeight);
+					}
+				});
+			}
+			
+			function restoreOriginalHeights() {
+				const bars = document.getElementsByClassName('middle-bar');
+				
+				Array.from(bars).forEach((bar) => {
+					const element = bar as HTMLElement;
+					if (element && element.dataset.originalHeight) {
+						element.classList.remove('h-2', 'h-4', 'h-6', 'h-8', 'h-10', 'h-12', 'h-14', 'h-16');
+						element.classList.add(element.dataset.originalHeight);
+					}
+				});
+				
+				isRandomMode = false;
+			}
+			
+			function handleClick() {
+				if (isRandomMode) return;
+				
+				isRandomMode = true;
+				
+				if (randomTimeout) {
+					clearTimeout(randomTimeout);
+				}
+				
+				let changeCount = 0;
+				const totalChanges = 20;
+				const changeInterval = 100;
+				
+				const changeHeights = () => {
+					setRandomHeights();
+					changeCount++;
+					
+					if (changeCount < totalChanges) {
+						randomTimeout = window.setTimeout(changeHeights, changeInterval);
+					} else {
+						restoreOriginalHeights();
+						randomTimeout = null;
+					}
+				};
+				
+				changeHeights();
+			}
+			
+			document.addEventListener('click', handleClick);
+			
+			window.addEventListener('scroll', handleScroll);
+			handleScroll();
+		</script>
 	</body>
 </html>

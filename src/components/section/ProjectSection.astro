@@ -12,7 +12,7 @@ interface Props {
 const { projects, title, description } = Astro.props;
 ---
 
-<section>
+<section class="py-5">
   {
     Astro.url.pathname !== '/projects' ? (
       <a
@@ -28,7 +28,8 @@ const { projects, title, description } = Astro.props;
 
   <p class="text-base text-[#0C3F33]/80 pb-4 pt-2">{description}</p>
   <div class="relative grid grid-cols-12 gap-5 pb-4">
-    {
+    { 
+      projects.length > 0 ? (
       projects
         .slice(0, 6)
         .map((project) => (
@@ -39,6 +40,7 @@ const { projects, title, description } = Astro.props;
             stack={project.data.stack}
           />
         ))
+      ) : <p class="col-span-12 text-left text-base text-[#0C3F33]/80 pb-4 pt-2">Still in the content filling stage of the project.</p>
     }
   </div>
 </section>

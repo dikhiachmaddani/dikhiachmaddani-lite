@@ -6,7 +6,7 @@ export const workExperiences: WorkExperience[] = [
         position: "Frontend Engineer",
         type: "remote",
         time: "internship",
-        period: [new Date(2024, 11), new Date(2025, 6)],
+        period: [new Date(2024, 10), new Date(2025, 5)],
         details: [
             "Participate in the creation of the PAMA Tax System website using Nextjs and Ant Design both in fixing bugs, adding features to ensurethe code is in accordance with company standards.",
         ],
@@ -22,7 +22,7 @@ export const workExperiences: WorkExperience[] = [
         position: "Fullstack Developer",
         type: "remote",
         time: "freelance",
-        period: [new Date(2024, 6), null],
+        period: [new Date(2024, 2), new Date(2024, 9)],
         details: [
             "Participated in creating the IPSPI website to search for social worker talents throughout Indonesia using laravel, tailwind and jquery.",
             "Participated in creating the Olahkarsa website using Laravel, Bootstrap, Liveware and JQuery.",
@@ -46,7 +46,7 @@ export const workExperiences: WorkExperience[] = [
         position: "Fullstack Developer",
         type: "remote",
         time: "internship",
-        period: [new Date(2024, 3), null],
+        period: [new Date(2024, 5), new Date(2024, 8)],
         details: [
             "Participated in working on the Perumda Makassar Raya website project for the operational activity management system in Perumda Makassar.",
         ],
@@ -61,9 +61,10 @@ export const workExperiences: WorkExperience[] = [
         position: "Laravel Developer",
         type: "remote",
         time: "freelance",
-        period: [new Date(2023, 3), new Date(2024, 1)],
+        period: [new Date(2023, 2), new Date(2024, 0)],
         details: [
-            "Participated in working on the Perumda Makassar Raya website project for the operational activity management system in Perumda Makassar.",
+            "Developed a comprehensive parking management system for over 50 locations, including features like attendance tracking, mailing, field operations, and deposit monitoring.",
+            "Implemented the Repository Pattern to manage parking resources, improving system efficiency and scalability."
         ],
         technologies: [
             "laravel",
@@ -77,7 +78,7 @@ export const workExperiences: WorkExperience[] = [
         position: "Backend Developer",
         type: "remote",
         time: "freelance",
-        period: [new Date(2023, 1), new Date(2023, 3)],
+        period: [new Date(2023, 0), new Date(2023, 2)],
         details: [
             "Participate to create an API using node typescript for document search applications with blockchain technology.",
             "Participate to create API using node typescript for digital land certificate application with blockchain technology.",
@@ -96,7 +97,7 @@ export const workExperiences: WorkExperience[] = [
         position: "Software Engineer",
         type: "onsite",
         time: "internship",
-        period: [new Date(2018, 12), new Date(2019, 3)],
+        period: [new Date(2018, 11), new Date(2019, 2)],
         details: [
             "Participated in the integration of attendance applications with fingerprint devices in each department in the city of Jember."
         ],
