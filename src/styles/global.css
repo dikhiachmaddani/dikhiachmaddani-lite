@@ -30,7 +30,7 @@
 	}
 
 	.prose :where(pre):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-		@apply mb-2 p-4 bg-[#0C3F35]!;
+		@apply mb-4 p-4 bg-[#0C3F35]! rounded-lg;
 	}
 
 	.prose :where(h1):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
@@ -42,7 +42,7 @@
 	}
 
 	.prose :where(h3):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-		@apply text-[#0C3F33] my-2 leading-loose text-base font-semibold;
+		@apply text-[rgb(12,63,51)] my-2 leading-loose text-base font-semibold;
 	}
 
 	.prose :where(h4):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
@@ -51,5 +51,17 @@
 
 	.prose :where(h5):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
 		@apply text-[#0C3F33] my-2 leading-loose text-sm font-semibold;
+	}
+
+	.prose :where(ul):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+		@apply list-disc list-outside my-4 space-y-2 pl-4;
+	}
+
+	.prose :where(ol):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+		@apply list-decimal list-outside my-4 space-y-2 pl-4;
+	}
+
+	.prose :where(li):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+		@apply text-[#0C3F33]/80;
 	}
 }

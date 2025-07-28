@@ -11,6 +11,22 @@ export type Props = {
 
 const { frontmatter, slug }: Props = Astro.props;
 
+const commentOptions = {
+	src: "https://giscus.app/client.js",
+	"data-repo": "dikhiachmaddani/dikhiachmaddani-lite",
+	"data-repo-id": "R_kgDOPQMRNA",
+	"data-category": "General",
+	"data-category-id": "DIC_kwDOPQMRNM4Ctf3D",
+	"data-mapping": "pathname",
+	"data-strict": "0",
+	"data-reactions-enabled": "1",
+	"data-emit-metadata": "0",
+	"data-input-position": "bottom",
+	"data-lang": "en",
+	crossorigin: "anonymous",
+	async: true,
+};
+
 const ogImageParams = new URLSearchParams({
 	title: frontmatter.title,
 	date: frontmatter.date.toISOString(),
@@ -38,6 +54,15 @@ const ogImageParams = new URLSearchParams({
 >
 	<main class="max-w-3xl mx-auto h-full my-20 px-4">
 		<BackButton />
+
+		<a
+			class="block text-center underline hover:text-[#0C3F33] text-sm text-[#0C3F33]/70 mb-2"
+			href={`https://github.com/dikhiachmaddani/dikhiachmaddani-lite/blob/master/src/content/posts/${slug}.mdx`}
+			target="_blank"
+			rel="norel noreferrer"
+		>
+			Suggest An Edit
+		</a>
 		<h1
 			class="text-center font-serif text-3xl uppercase font-semibold text-[#0C3F33]"
 		>
@@ -59,16 +84,9 @@ const ogImageParams = new URLSearchParams({
 			</span>
 			
 		</div>
-		<!-- <a
-			class="block text-center relative no-underline hover:underline hover:text-[#0C3F33] font-serif text-sm md:text-base text-[#0C3F33]/70 mb-2"
-			href={`https://github.com/dikhiachmaddani/dikhiachmaddani-lite/blob/master/src/content/posts/${slug}.mdx`}
-			target="_blank"
-			rel="norel noreferrer"
-		>
-			Suggest An Edit
-		</a> -->
+		
 		<div
-			class="justify-center flex gap-2 pb-4 mb-8 border-b border-dashed border-[#0C3F33]"
+			class="justify-center flex gap-2"
 		>
 			{
 				frontmatter.tags.map((tag) => (
@@ -78,8 +96,38 @@ const ogImageParams = new URLSearchParams({
 				))
 			}
 		</div>
+		<div
+			class="flex gap-2 justify-center py-4 mb-8 border-b border-dashed border-[#0C3F33]"
+		>
+			<a
+				class="text-center underline hover:text-[#0C3F33] text-sm text-[#0C3F33]/70 mb-2"
+				href={frontmatter.source}
+				target="_blank"
+				rel="norel noreferrer"
+			>
+				Source Code
+			</a>
+			{
+				frontmatter.demo !== null && (
+					<a
+						class="text-center underline hover:text-[#0C3F33] text-sm text-[#0C3F33]/70 mb-2"
+						href={frontmatter.demo}
+						target="_blank"
+						rel="norel noreferrer"
+					>
+						Live Demo
+					</a>
+				)
+			}
+		</div>
 		<main class="prose">
 			<slot />
+			<div>
+				<script is:inline {...commentOptions} data-theme="light"></script>
+			</div>
+			<p class="mt-4! text-center text-sm text-[#0C3F33]/70">
+				If you don't see any comment section, please turn off your adblocker :)
+			</p>
 		</main>
 	</main>
 </Layout>

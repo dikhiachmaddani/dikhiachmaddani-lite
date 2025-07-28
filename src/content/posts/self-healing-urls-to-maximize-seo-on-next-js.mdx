@@ -1,0 +1,597 @@
+---
+title: Self Healing URLs to maximize SEO on Next JS
+date: 2025-02-04
+source: https://github.com/dikhiachmaddani/self-healing-url-nextjs-demo
+demo: https://self-healing-url-nextjs-demo.vercel.app
+draft: false
+description: This article was inspired by a Medium blog page. In the path section, there is a title and ID at the end. If the title is deleted and only the ID remains, the URL will return to its original form.
+tags: [nextjs, seo, self-healing-url]
+---
+
+[source-metadata]: https://nextjs.org/docs/app/getting-started/metadata-and-og-images
+[source-medium-1]: https://mikebifulco.com/posts/self-healing-urls-nextjs-seo
+[source-medium-2]: https://medium.com/@vishalkamath853/self-healing-urls-eb66756a9c62
+
+# Introduction
+This article was inspired by a Medium blog page. In the path section, there is a title and ID at the end. If the title is deleted and only the ID remains, the URL will return to its original form. For example:
+
+<img src="/assets/posts/self-healing-urls-to-maximize-seo-on-next-js/1.gif" alt="medium blog page url" loading="eager" />
+
+## What is a Self-Healing URL?
+A Self-Healing URL is an approach to URL creation that allows a link to continue pointing to the correct content, even if there are changes to the structure or content of the website. The core concept is to separate the descriptive (user-friendly) part of the URL from the unique (identifier) part, such as the ID. This way, if the descriptive part changes, the URL remains valid because the identifier part remains unchanged. This can be helpful for several reasons, such as:
+
+- Preventing Broken Links: Changes to website content or structure often result in invalid links. Self-healing URLs prevent this from happening, improving the user experience.
+- Improving SEO: Search engines prefer websites with stable and consistent links. Self-healing URLs help maintain the quality of backlinks and improve a website's ranking in search engines.
+- Enhancing Accessibility: Descriptive URLs help users understand the content of a page before they click on it.
+
+For example, look at the two URLs below:
+
+1. https://url1.com/blog/222111222
+
+2. https://url2.com/blog/self-healing-url-nextjs-303021
+
+The first URL is like a Pandora's box, we don't know what the content of the URL is and only uses ID as an identifier, while the second URL uses a slug (combination of title and ID after it as an identifier). If the title of the article "Self Healing Url Nextjs" is changed, the second URL remains valid as long as the identifier part does not change.
+
+**So, how do we implement it?**
+
+There are many ways that web developers use. However, this is the way I use to implement it in Next JS.
+
+## Preparation:
+
+We start by installing Next JS.
+
+```bash
+pnpm create next-app@latest
+
+What is your project named? self-healing-url-demo
+Would you like to use TypeScript? No / Yes
+Would you like to use ESLint? No / Yes
+Would you like to use Tailwind CSS? No / Yes
+Would you like your code inside a `src/` directory? No / Yes
+Would you like to use App Router? (recommended) No / Yes
+Would you like to use Turbopack for `next dev`?  No / Yes
+Would you like to customize the import alias (`@/*` by default)? No / Yes
+What import alias would you like configured? @/*
+```
+
+Then, install the following packages:
+
+```bash
+pnpm add @tanstack/react-query
+pnpm add with-query
+pnpm add zod
+pnpm add slugify -> *optional, you can use manual way to trim title url.
+```
+
+The folder structure I usually use is like this. However, don't worry for now. If you read it again, you can cut it down a bit when you understand the code.
+
+```bash
+src/
+├─ app/
+│  ├─ [slug]/
+│  │  ├─ _utils/
+│  │  │  ├─ index.ts
+│  │  │  ├─ metadata.ts
+│  │  ├─ _hooks/
+│  │  │  ├─ index.ts
+│  │  ├─ page.tsx
+│  │  ├─ not-found.tsx
+│  │  ├─ client.tsx
+│  ├─ _components/
+│  │  ├─ skeleton/
+│  │  │  ├─ card-skeleton.tsx
+│  │  ├─ layout/
+│  │  │  ├─ main-layout.tsx
+│  │  ├─ card/
+│  │  │  ├─ albums-card.tsx
+│  ├─ robots.ts
+│  ├─ sitemap.ts
+│  ├─ page.tsx
+│  ├─ layout.tsx
+├─ commons/
+│  ├─ constants/
+│  │  ├─ query-key.ts
+│  ├─ endpoints/
+│  │  ├─ api.ts
+│  ├─ routes/
+│  │  ├─ index.ts
+│  ├─ types/
+│  │  ├─ api.ts
+├─ components/
+│  ├─ providers/
+│  │  ├─ react-query-provider.tsx
+├─ config/
+│  ├─ env-client.config.ts
+├─ modules/
+│  ├─ albums/
+│  │  ├─ api.ts
+│  │  ├─ hook.ts
+│  │  ├─ type.ts
+├─ utils/
+│  ├─ http-client.ts
+```
+
+In the commons folder, fill in each file differently:
+
+```ts
+// src/commons/constants/query-key.ts
+// list key untuk digunakan di react query 
+export const AlbumsKey = {
+    LIST: "list-albums",
+    DETAIL: "detail-albums",
+  };
+
+// src/commons/endpoints/api.ts
+// berisikan list endpoint API
+export const ENDPOINTS = {
+    LIST_ALBUMS: '/albums',
+    DETAIL_ALBUMS: (id: string) => `/albums/${id}`,
+};
+
+// src/commons/routes/index.ts
+// berisikan list route navigation
+export enum Route {
+    ListAlbums = "/",
+    SlugAlbums = "/:slug",
+}
+
+// src/commons/types/api.ts
+// berisikan base url API
+export type TApi = {
+    baseUrl: string;
+};
+```
+
+In the config folder, fill in the schema that exists in .env:
+
+```ts
+// src/config/env-client.config.ts
+import z from "zod";
+
+export const envClientSchemaObj = {
+    NEXT_PUBLIC_API_BASE_URL: z.string(),
+    NEXT_PUBLIC_BASE_URL: z.string().url(),
+};
+export const envClientCollectionObj = {
+    NEXT_PUBLIC_API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL,
+    NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
+};
+export const envClientSchema = z.object(envClientSchemaObj);
+export const envClient = envClientSchema.parse(envClientCollectionObj);
+
+// for env, it's like this:
+// NEXT_PUBLIC_API_BASE_URL=https://jsonplaceholder.typicode.com
+// NEXT_PUBLIC_BASE_URL=http://localhost:3000
+```
+
+For fetch API, you can also use axios or fetch from next js like this:
+
+```ts
+// src/utils/http-client.ts
+
+import { TApi } from "@/commons/types/api";
+import { envClient } from "@/config/env-client.config";
+import withQuery from "with-query";
+export const Api = ({ baseUrl }: TApi) => {
+    return {
+        get: async <T>(input: RequestInfo | URL) => {
+            const response = await fetch(
+                withQuery(new URL(input.toString(), baseUrl).toString()),
+                {
+                    method: 'GET',
+                    cache: "no-store",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                },
+            );
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'An error occurred');
+            }
+            return response.json() as Promise<T>;
+        },
+    }
+};
+export const api = Api({ baseUrl: envClient.NEXT_PUBLIC_API_BASE_URL });
+```
+
+In the global components folder, I fill in for providers:
+
+```tsx
+// src/components/providers/react-query-provider.tsx
+
+"use client";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import type { PropsWithChildren } from "react";
+
+export const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            retry: false,
+        },
+    },
+});
+
+export const ReactQueryProvider = ({ children }: PropsWithChildren) => {
+    return (
+        <QueryClientProvider client={queryClient}>
+            {children}
+        </QueryClientProvider>
+    );
+};
+```
+
+After creating the provider component, put it in the layout like this:
+
+```tsx
+// src/app/layout.tsx
+
+"use client";
+import type { Metadata } from "next";
+import { ReactQueryProvider } from '../components/providers/react-query-provider';
+import "./globals.css";
+
+export const metadata: Metadata = {
+  title: "List Albums",
+  description: "List Albums",
+  creator: "Dikhi Achmad Dani"
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body>
+        <ReactQueryProvider>
+          {children}
+        </ReactQueryProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+In the modules folder, fill in the code in each file:
+
+```ts
+// src/modules/albums/api.ts
+
+import { ENDPOINTS } from "@/commons/endpoints/api";
+import { api } from "@/utils/http-client";
+import { Albums } from "./type";
+
+export const getListAlbums = async () => {
+    return await api.get<Albums[]>(ENDPOINTS.LIST_ALBUMS);
+};
+
+export const getDetailAlbums = async (id: string) => {
+    return await api.get<Albums>(`${ENDPOINTS.DETAIL_ALBUMS(id)}`);
+};
+
+// src/modules/albums/hook.ts
+"use client";
+
+import { AlbumsKey } from "@/commons/constants/query-key";
+import { useQuery } from "@tanstack/react-query";
+import { getDetailAlbums, getListAlbums } from "./api";
+
+export const useListAlbums = () => {
+    return useQuery({
+        queryKey: [AlbumsKey.LIST],
+        queryFn: () => getListAlbums(),
+        select: (data) => data,
+    });
+};
+export const useDetailAlbums = (id: string) => {
+    return useQuery({
+        queryKey: [AlbumsKey.DETAIL, id],
+        queryFn: () => getDetailAlbums(id),
+    });
+};
+
+// src/modules/albums/type.ts
+export type Albums = {
+    userId: number;
+    id: number;
+    title: string;
+  };
+
+```
+
+In the list page, fill in the code in each file:
+
+```tsx
+// src/app/page.tsx
+
+"use client"
+
+import { useListAlbums } from "@/modules/albums/hook";
+import { AlbumsCard } from "./_components/card/albums-card";
+import { MainLayout } from "./_components/layout/main-layout";
+import { CardSkeleton } from "./_components/skeleton/card-skeleton";
+
+export default function Home() {
+  const { data, isLoading } = useListAlbums();
+
+  if (isLoading || !data) {
+    return (
+      <MainLayout>
+        <section className="grid grid-cols-12 gap-6 mt-11 p-4">
+          {Array(8).fill(null).map((_, index) => (
+            <div key={index} className="col-span-12 md:col-span-6 lg:col-span-3">
+              <CardSkeleton />
+            </div>
+          ))}
+        </section>
+      </MainLayout>
+    );
+  }
+
+  return (
+    <MainLayout>
+      <section className="grid grid-cols-12 gap-6">
+        {data.map((album) => (
+          <div key={album.id} className="col-span-12 md:col-span-6 lg:col-span-3">
+            <AlbumsCard
+              id={album.id}
+              title={album.title}
+            />
+          </div>
+        ))}
+      </section>
+    </MainLayout>
+  );
+}
+
+// src/app/_components/album-card.tsx
+
+import { titleToSlug } from "@/app/[slug]/_utils";
+import { Route } from "@/commons/routes";
+import { Albums } from "@/modules/albums/type";
+import Link from "next/link";
+
+export function AlbumsCard({ id, title }: Omit<Albums, 'userId'>) {
+    return (
+        <div className="col-span-12 md:col-span-6 lg:col-span-3">
+            <div className="border-[1px] border-blue-black p-5 rounded-md">
+                <p>{title}</p>
+                <Link href={Route.SlugAlbums.replace(":slug", `${titleToSlug(title)}-${id}`)} className="block bg-blue-950 text-white text-center rounded-md py-2 mt-5">Detail</Link>
+            </div>
+        </div>
+    );
+}
+
+// src/app/_components/layout/main-layout.tsx
+
+import React from "react";
+
+export function MainLayout({ children, title }: Readonly<{
+    children: React.ReactNode;
+    title?: string
+}>) {
+    return (
+        <>
+            <header className="mx-auto container my-10">
+                <h1 className="font-semibold text-2xl mb-4 text-blue-950">{title ?? 'Self Healing URL'}</h1>
+                <p>data yang didapatkan berasal dari jsonplaceholder Albums.</p>
+            </header>
+            <main className="mx-auto container">
+                {children}
+            </main>
+        </>
+    )
+}
+
+// src/app/_components/skeleton/card-skeleton.tsx
+
+export function CardSkeleton() {
+    return (
+        <div className="col-span-12 md:col-span-6 lg:col-span-3">
+            <div className="border-[1px] border-blue-black p-5">
+                <div className="h-12 w-12 bg-gray-300 rounded-full" />
+                <div className="mt-2 space-y-2">
+                    <p className="bg-gray-300 h-4 w-3/4 rounded"></p>
+                    <p className="bg-gray-300 h-4 w-2/4 rounded"></p>
+                    <p className="bg-gray-300 h-4 w-1/4 rounded"></p>
+                </div>
+            </div>
+        </div>
+    )
+}
+```
+
+In the detail page, fill in the code in each file:
+
+```tsx
+// src/app/[slug]/_hooks/index.tsx
+import { useDetailAlbums } from "@/modules/albums/hook";
+import { notFound, redirect } from "next/navigation";
+import { useMemo } from "react";
+import { getCorrectSlugFromAPI, getIdFromSlug } from "../_utils";
+
+export function UseValidateAlbum(slug: string) {
+    const id = getIdFromSlug(slug);
+    if (!id) notFound();
+    const { data, isLoading, isError } = useDetailAlbums(id);
+    useMemo(() => {
+        if (data) {
+            const correctSlug = getCorrectSlugFromAPI(data);
+            if (slug !== correctSlug) redirect(`/${correctSlug}`);
+        }
+    }, [data, slug]);
+    return { data, isLoading, isError };
+}
+
+// src/app/[slug]/_utils/index.tsx
+import { Albums } from "@/modules/albums/type";
+import slugify from "slugify";
+
+export const getTitleFromSlug = (slug: string) => slug.split('-');
+export const getIdFromSlug = (slug: string) => slug.split('-').pop();
+
+export const titleToSlug = (title: string) => {
+    const uriSlug = slugify(title, {
+        trim: true,
+    });
+    return encodeURI(uriSlug);
+};
+
+export const slugTotitle = (slug: string) => {
+    const split = slug.split('-');
+    const result = split.slice(0, split.length - 1).join(' ');
+    return result;
+};
+
+export const getCorrectSlugFromAPI = (albums: Albums) => {
+    return `${titleToSlug(albums.title)}-${albums.id}`;
+};
+
+// src/app/[slug]/_utils/metadata.ts
+import { Metadata } from "next";
+
+export function buildMetadata(title: string): Metadata {
+    const description = `Explore details about ${title ?? "details"}`;
+    return {
+        title: `${title ?? "Album Details"} | Your Album Site`,
+        description,
+        openGraph: {
+            title: title ?? "Album Details",
+            description
+        },
+        creator: "Dikhi Achmad Dani"
+    };
+}
+
+// src/app/[slug]/client.tsx
+// I separate between client side rendering and ssr
+'use client';
+
+import { Route } from '@/commons/routes';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { MainLayout } from '../_components/layout/main-layout';
+import { CardSkeleton } from '../_components/skeleton/card-skeleton';
+import { UseValidateAlbum } from './_hooks';
+
+interface SlugPageClientProps {
+    slug: string;
+}
+
+export function SlugPageClient({ slug }: SlugPageClientProps) {
+    const { data, isLoading, isError } = UseValidateAlbum(slug);
+    if (isLoading) return (
+        <MainLayout title='Detail Albums'>
+            <CardSkeleton />
+        </MainLayout>
+    );
+    if (isError || !data) notFound();
+    return (
+        <MainLayout title={data.title}>
+            <Link href={Route.ListAlbums} className="mb-5 text-white bg-blue-950 p-3 rounded-md">Kembali Ke Halaman Utama</Link>
+        </MainLayout>
+    );
+}
+
+// src/app/[slug]/page.tsx
+import { Metadata } from 'next';
+import { slugTotitle } from './_utils';
+import { buildMetadata } from './_utils/metadata';
+import { SlugPageClient } from './client';
+
+type SlugProps = {
+    params: Promise<{ slug: string }>;
+};
+
+export async function generateMetadata({ params }: SlugProps): Promise<Metadata> {
+    const { slug } = await params;
+    const title = slugTotitle(slug);
+    return buildMetadata(title);
+}
+
+export default async function SlugPage({ params }: SlugProps) {
+    const { slug } = await params;
+    return <SlugPageClient slug={slug} />;
+}
+
+// src/app/[slug]/not-found.tsx
+import Link from "next/link";
+
+export default function NotFound() {
+    return (
+        <div className="flex flex-col justify-center text-center m-10">
+            <h2 className="text-2xl font-semibold mb-2">Not Found</h2>
+            <p className="mb-3 text-lg font-light">Could not find requested resource</p>
+            <div className="mt-5">
+                <Link href="/" className="mb-5 text-white bg-blue-950 p-3 rounded-md">Return Home</Link>
+            </div>
+        </div>
+    )
+}
+
+```
+
+After dealing with SEO, don't forget to include other things like sitemap, robots, and metadata. You can also add more information in the utils  [metadata][source-metadata].
+
+For robots and sitemap, for example:
+
+```ts
+// src/app/robots.ts
+
+import type { MetadataRoute } from 'next';
+
+export default function robots(): MetadataRoute.Robots {
+  const urlPrefix = envClient.NEXT_PUBLIC_BASE_URL;
+  return {
+    rules: {
+      userAgent: '*',
+      allow: '/',
+      disallow: '/private/',
+    },
+    sitemap: `${urlPrefix}/sitemap.xml`,
+  }
+}
+```
+
+```ts
+// src/app/sitemap.ts
+
+import { titleToSlug } from '@/app/[slug]/_utils';
+import { Route } from '@/commons/routes';
+import { getListAlbums } from '@/modules/albums/api';
+import type { MetadataRoute } from 'next';
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+    const data = await getListAlbums();
+    const urlPrefix = envClient.NEXT_PUBLIC_BASE_URL;
+
+    const albums = await data.map((album) => ({
+        url: `${urlPrefix}${Route.SlugAlbums.replace(':slug', titleToSlug(`${album.title}-${album.id}`))}`,
+        lastModified: new Date().toISOString(),
+        changeFrequency: 'daily',
+        priority: 0.7,
+    }));
+
+    return [
+        {
+            url: `${urlPrefix}/`,
+            lastModified: new Date().toISOString(),
+            changeFrequency: 'daily',
+            priority: 0.1,
+        },
+        ...albums as MetadataRoute.Sitemap
+    ];
+}
+```
+
+The final result is like this:
+
+<img src="/assets/posts/self-healing-urls-to-maximize-seo-on-next-js/2.gif" alt="result self healing url nextjs" loading="lazy" />
+
+## Source:
+
+- [How to set up self-healing URLs in Next.js for better SEO, Mike Bifulco][source-medium-1]
+- [Self Healing URLs, Vishal Kamath][source-medium-2]
