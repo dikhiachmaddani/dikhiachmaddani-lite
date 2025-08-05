@@ -5,7 +5,7 @@ import Layout from '@/layouts/Layout.astro';
 
 const personalProjects = await getCollection(
 	'projects',
-	({ data }) => data.type === 'personal',
+	({ data }) => data.type === 'personal' && !data.draft,
 );
 const sortedPersonalProjects = personalProjects.sort((a, b) =>
 	a.data.date > b.data.date ? -1 : 1,
@@ -13,7 +13,7 @@ const sortedPersonalProjects = personalProjects.sort((a, b) =>
 
 const companyProjects = await getCollection(
 	'projects',
-	({ data }) => data.type === 'company',
+	({ data }) => data.type === 'company' && !data.draft,
 );
 const sortedCompanyProjects = companyProjects.sort((a, b) =>
 	a.data.date > b.data.date ? -1 : 1,
@@ -21,7 +21,7 @@ const sortedCompanyProjects = companyProjects.sort((a, b) =>
 
 const assignmentProjects = await getCollection(
 	'projects',
-	({ data }) => data.type === 'assignment',
+	({ data }) => data.type === 'assignment' && !data.draft,
 );
 const sortedAssignmentProjects = assignmentProjects.sort((a, b) =>
 	a.data.date > b.data.date ? -1 : 1,
