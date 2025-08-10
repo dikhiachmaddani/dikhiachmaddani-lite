@@ -1,6 +1,5 @@
 ---
 import SEO, { type Props as SEOProps } from '@/components/SEO.astro';
-import '@/styles/layout.scss';
 import '@/styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 export interface Props {
@@ -35,104 +34,75 @@ export interface Props {
 				<div class="w-full h-2 bg-[#B8021C] transition-all duration-300"></div>
 			</div>
 		</section>
+
 		<slot />
+
 		<script>
-			let isRandomMode = false;
-			let randomTimeout: number | null = null;
+			let isRandomMode = false, randomTimeout = null;
 			
+			const heightClasses = ['h-2', 'h-4', 'h-6', 'h-8', 'h-10', 'h-12', 'h-14', 'h-16'];
+		  
 			function handleScroll() {
-				if (isRandomMode) return;
+			  if (isRandomMode) return;
+			  const scrollY = window.scrollY, bars = document.getElementsByClassName('middle-bar');
+			  
+			  Array.from(bars).forEach(bar => {
+				const element = bar as HTMLElement;
+				if (!element) return;
 				
-				const scrollY = window.scrollY;
-				const scrollThreshold = 20;
-				
-				const bars = document.getElementsByClassName('middle-bar');
-				
-				Array.from(bars).forEach((bar) => {
-					const element = bar as HTMLElement;
-					if (element) {
-						if (scrollY > scrollThreshold) {
-							if (!element.dataset.originalHeight) {
-								element.dataset.originalHeight = element.className.match(/h-\d+/)?.[0] || 'h-10';
-							}
-							
-							element.classList.remove('h-10', 'h-12', 'h-14', 'h-16');
-							element.classList.add('h-4');
-						} else {
-							if (element.dataset.originalHeight) {
-								element.classList.remove('h-4', 'h-10', 'h-12', 'h-14', 'h-16');
-								element.classList.add(element.dataset.originalHeight);
-							}
-						}
-					}
-				});
+				const originalHeight = element.dataset.originalHeight || (element.dataset.originalHeight = element.className.match(/h-\d+/)?.[0] || 'h-10');
+				element.classList.toggle('h-4', scrollY > 20);
+				element.classList.toggle(originalHeight, scrollY <= 20);
+			  });
 			}
-			
+		  
 			function setRandomHeights() {
-				const bars = document.getElementsByClassName('middle-bar');
-				const heightClasses = ['h-2', 'h-4', 'h-6', 'h-8', 'h-10', 'h-12', 'h-14', 'h-16'];
-				
-				Array.from(bars).forEach((bar) => {
-					const element = bar as HTMLElement;
-					if (element) {
-						if (!element.dataset.originalHeight) {
-							element.dataset.originalHeight = element.className.match(/h-\d+/)?.[0] || 'h-10';
-						}
-						
-						element.classList.remove('h-2', 'h-4', 'h-6', 'h-8', 'h-10', 'h-12', 'h-14', 'h-16');
-						
-						const randomHeight = heightClasses[Math.floor(Math.random() * heightClasses.length)];
-						element.classList.add(randomHeight);
-					}
-				});
-			}
-			
-			function restoreOriginalHeights() {
-				const bars = document.getElementsByClassName('middle-bar');
-				
-				Array.from(bars).forEach((bar) => {
-					const element = bar as HTMLElement;
-					if (element && element.dataset.originalHeight) {
-						element.classList.remove('h-2', 'h-4', 'h-6', 'h-8', 'h-10', 'h-12', 'h-14', 'h-16');
-						element.classList.add(element.dataset.originalHeight);
-					}
-				});
-				
-				isRandomMode = false;
-			}
-			
-			function handleClick() {
-				if (isRandomMode) return;
-				
-				isRandomMode = true;
-				
-				if (randomTimeout) {
-					clearTimeout(randomTimeout);
+			  Array.from(document.getElementsByClassName('middle-bar')).forEach(bar => {
+				const element = bar as HTMLElement;
+				if (!element) return;
+		  
+				if (!element.dataset.originalHeight) {
+				  element.dataset.originalHeight = element.className.match(/h-\d+/)?.[0] || 'h-10';
 				}
+		  
+				heightClasses.forEach(height => element.classList.remove(height));
 				
-				let changeCount = 0;
-				const totalChanges = 20;
-				const changeInterval = 100;
-				
-				const changeHeights = () => {
-					setRandomHeights();
-					changeCount++;
-					
-					if (changeCount < totalChanges) {
-						randomTimeout = window.setTimeout(changeHeights, changeInterval);
-					} else {
-						restoreOriginalHeights();
-						randomTimeout = null;
-					}
-				};
-				
-				changeHeights();
+				const randomHeight = heightClasses[Math.floor(Math.random() * heightClasses.length)];
+				element.classList.add(randomHeight);
+			  });
 			}
-			
+		  
+			function restoreOriginalHeights() {
+			  Array.from(document.getElementsByClassName('middle-bar')).forEach(bar => {
+				const element = bar as HTMLElement;
+				if (element?.dataset.originalHeight) {
+				  heightClasses.forEach(height => element.classList.remove(height));
+				  element.classList.add(element.dataset.originalHeight);
+				}
+			  });
+			  isRandomMode = false;
+			}
+		  
+			function handleClick() {
+			  if (isRandomMode) return;
+			  
+			  isRandomMode = true;
+			  let changeCount = 0;
+			  
+			  const changeHeights = () => {
+				setRandomHeights();
+				if (++changeCount < 20) randomTimeout = setTimeout(changeHeights, 100);
+				else { restoreOriginalHeights(); randomTimeout = null; }
+			  };
+		  
+			  changeHeights();
+			}
+		  
 			document.addEventListener('click', handleClick);
-			
 			window.addEventListener('scroll', handleScroll);
 			handleScroll();
-		</script>
+		  </script>
+		  
+		  
 	</body>
 </html>

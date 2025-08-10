@@ -1,17 +1,15 @@
 ---
-const { height } = Astro.props;
+const { breakpoint = 'sm' } = Astro.props;
+
+const breakpointClass: Record<string, string> = {
+    sm: 'h-4',
+    md: 'h-8',
+    lg: 'h-12',
+};
 ---
 
 <div
-    class={`group relative mt-3 mb-2 text-sm/6 text-[#0C3F33] ${
-        height == 'sm'
-            ? 'h-4'
-            : height == 'md'
-              ? 'h-8'
-              : height == 'lg'
-                ? 'h-12'
-                : ''
-    }`}
+    class={`group relative mt-3 mb-2 text-sm/6 text-[#0C3F33] ${breakpointClass[breakpoint]}`}
 >
     <span
         class="absolute inset-0 border border-dashed border-[#0C3F33]/60 bg-[#0C3F33]/10 group-hover:bg-[#0C3F33]/15"

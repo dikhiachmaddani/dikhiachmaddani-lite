@@ -5,7 +5,6 @@ import PostList from '@/components/PostList.svelte';
 
 const posts = await getCollection('posts', ({ data }) => !data.draft);
 
-// sort from latest to oldest
 posts.sort((a, b) => (a.data.date > b.data.date ? -1 : 1));
 ---
 
