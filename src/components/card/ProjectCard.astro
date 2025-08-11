@@ -8,7 +8,7 @@ interface Props {
 
 const { title, description, href, stack } = Astro.props;
 ---
-<div class="col-span-12 sm:col-span-6 md:col-span-4 group relative text-sm/6 text-[#0C3F33]">
+<div class="col-span-12 md:col-span-4 group relative text-xs md:text-sm/6 text-[#0C3F33]">
   <span
     class="absolute inset-0 border border-dashed border-[#0C3F33]/60 bg-[#0C3F33]/10 group-hover:bg-[#0C3F33]/15"
   >
@@ -18,17 +18,17 @@ const { title, description, href, stack } = Astro.props;
       data-astro-prefetch
       rel="prefetch"
       href={href}
-      class="text-base font-bold"
+      class="text-sm md:text-base font-bold"
     >
       {title.length > 50 ? title.substring(0, 50) + '...' : title}
     </a>
-    <p class="my-2">
+    <p class="my-2 text-xs md:text-sm">
       {description.length > 50 ? description.substring(0, 50) + '...' : description}
     </p>
     {
       stack.map(([name, url], index) => (
         <Fragment key={index}>
-          <a href={url} target="_blank" rel="noreferrer" class="text-sm">
+          <a href={url} target="_blank" rel="noreferrer" class="text-xs md:text-sm">
             {name}{' '}
             {index !== stack.length - 1 && <span class="leading-none">•</span>}
           </a>

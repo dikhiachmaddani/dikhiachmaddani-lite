@@ -70,7 +70,9 @@ function handleInput(event: Event) {
 </script>
 
 <div class="relative">
-	<input
+	<div class="group relative text-xs md:text-sm/6 text-[#0C3F33]">
+
+		<input
 		class="block font-serif mx-auto my-0 w-full p-3 bg-transparent border-dashed border border-[#0C3F33]/60 outline-none text-[#0C3F33] placeholder:text-[#0C3F33]/70"
 		id="posts__input"
 		type="text"
@@ -81,6 +83,40 @@ function handleInput(event: Event) {
 		bind:this={inputBox}
 	/>
 
+		<svg
+    width="5"
+    height="5"
+    viewBox="0 0 5 5"
+    class="absolute top-[-2px] left-[-2px] fill-[#0C3F33]"
+  >
+    <path d="M2 0h1v2h2v1h-2v2h-1v-2h-2v-1h2z"></path>
+  </svg>
+  <svg
+    width="5"
+    height="5"
+    viewBox="0 0 5 5"
+    class="absolute top-[-2px] right-[-2px] fill-[#0C3F33]"
+  >
+    <path d="M2 0h1v2h2v1h-2v2h-1v-2h-2v-1h2z"></path>
+  </svg>
+  <svg
+    width="5"
+    height="5"
+    viewBox="0 0 5 5"
+    class="absolute bottom-[-2px] left-[-2px] fill-[#0C3F33]"
+  >
+    <path d="M2 0h1v2h2v1h-2v2h-1v-2h-2v-1h2z"></path>
+  </svg>
+  <svg
+    width="5"
+    height="5"
+    viewBox="0 0 5 5"
+    class="absolute bottom-[-2px] right-[-2px] fill-[#0C3F33]"
+  >
+    <path d="M2 0h1v2h2v1h-2v2h-1v-2h-2v-1h2z"></path>
+  </svg>
+	</div>
+	
 
 	{#if isCompletionVisible && tagSearchQuery}
 		<div

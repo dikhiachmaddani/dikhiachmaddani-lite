@@ -9,7 +9,7 @@
   const { title, description, href, date, tags }: Props = $props();
 </script>
 
-<div class="col-span-12 sm:col-span-6 md:col-span-4 text-left">
+<div class="col-span-12 md:col-span-4 text-left">
   <div class="group relative text-sm/6 text-[#0C3F33]">
     <span
       class="absolute inset-0 border border-dashed border-[#0C3F33]/60 bg-[#0C3F33]/10 group-hover:bg-[#0C3F33]/15"
