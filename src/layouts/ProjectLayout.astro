@@ -21,12 +21,10 @@ const { frontmatter, slug } = Astro.props as Props;
 	<main class="max-w-3xl mx-auto h-full my-22 px-4">
 		<BackButton />
 
-		<h1
-			class="text-center text-3xl uppercase font-semibold text-[#0C3F33]"
-		>
+		<h1 class="text-center text-3xl uppercase font-semibold text-[#0C3F33]">
 			{frontmatter.title}
 		</h1>
-		<div class="justify-center flex gap-2">
+		<div class="justify-center flex gap-2 mt-2">
 			{
 				frontmatter.stack.map(([stackName, stackHomepage]) => (
 					<a
@@ -44,14 +42,18 @@ const { frontmatter, slug } = Astro.props as Props;
 		<div
 			class="flex gap-2 justify-center py-4 mb-8 border-b border-dashed border-[#0C3F33]"
 		>
-			<a
-				class="text-center underline hover:text-[#0C3F33] text-sm text-[#0C3F33]/70 mb-2"
-				href={frontmatter.source}
-				target="_blank"
-				rel="norel noreferrer"
-			>
-				Source Code
-			</a>
+			{
+				frontmatter.source !== null && (
+					<a
+						class="text-center underline hover:text-[#0C3F33] text-sm text-[#0C3F33]/70 mb-2"
+						href={frontmatter.source}
+						target="_blank"
+						rel="norel noreferrer"
+					>
+						Source Code
+					</a>
+				)
+			}
 			{
 				frontmatter.demo !== null && (
 					<a
@@ -65,7 +67,7 @@ const { frontmatter, slug } = Astro.props as Props;
 				)
 			}
 		</div>
-		<div class="overflow-hidden">
+		<div class="overflow-hidden rounded-sm">
 			{
 				frontmatter.hasImage ? (
 					<img

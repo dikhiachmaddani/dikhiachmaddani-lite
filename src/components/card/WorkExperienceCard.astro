@@ -16,7 +16,7 @@ const { experience } = Astro.props;
             </h2>
             <h2 class="text-xs md:text-sm font-bold text-[#0C3F33] capitalize">
                 {
-                    experience.period[0].toLocaleDateString('en-GB', {
+                    experience.period[0].toLocaleDateString('en-US', {
                         month: 'short',
                         year: 'numeric',
                     })
@@ -25,7 +25,7 @@ const { experience } = Astro.props;
                 {
                     experience.period[1] === null
                         ? 'Present'
-                        : experience.period[1].toLocaleDateString('en-GB', {
+                        : experience.period[1].toLocaleDateString('en-US', {
                               month: 'short',
                               year: 'numeric',
                           })

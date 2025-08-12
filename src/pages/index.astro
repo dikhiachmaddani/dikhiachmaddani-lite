@@ -1,9 +1,7 @@
 ---
 import Layout from '@/layouts/Layout.astro';
-import background from '@/assets/background.jpg';
 import WorkExperienceSection from '@/components/section/WorkExperienceSection.astro';
 import { workExperiences } from '@/common/data/work-experiences';
-import sites from '@/common/data/sites';
 import PostSection from '@/components/section/PostSection.astro';
 import ProjectSection from '@/components/section/ProjectSection.astro';
 import { getCollection } from 'astro:content';
@@ -12,8 +10,9 @@ import ShortDescriptionSection from '@/components/section/ShortDescriptionSectio
 
 const allProjects = await getCollection(
     'projects',
-    ({ data }) => data.featured === true,
+    ({ data }) => data.draft === false && data.featured === true,
 );
+
 const sortedPersonalProjects = allProjects.sort((a, b) =>
     a.data.date > b.data.date ? -1 : 1,
 );

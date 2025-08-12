@@ -8,7 +8,8 @@ interface Props {
 
 const { title, description, href, stack } = Astro.props;
 ---
-<div class="col-span-12 md:col-span-4 group relative text-xs md:text-sm/6 text-[#0C3F33]">
+<div class="col-span-12 md:col-span-4 ">
+  <div class="group relative text-xs md:text-sm/6 text-[#0C3F33]">
   <span
     class="absolute inset-0 border border-dashed border-[#0C3F33]/60 bg-[#0C3F33]/10 group-hover:bg-[#0C3F33]/15"
   >
@@ -69,4 +70,5 @@ const { title, description, href, stack } = Astro.props;
   >
     <path d="M2 0h1v2h2v1h-2v2h-1v-2h-2v-1h2z"></path>
   </svg>
+  </div>
 </div>

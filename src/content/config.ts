@@ -20,7 +20,7 @@ const projectCollection = defineCollection({
 		description: z.string(),
 		demo: z.string().nullable().default(null),
 		source: z.string().nullable().default(null),
-		type: z.enum(["personal", "assignment", "company"]),
+		type: z.enum(["personal", "company"]),
 		stack: z.array(z.tuple([z.string(), z.string()])),
 		featured: z.boolean().default(false),
 		draft: z.boolean().optional().default(false),
