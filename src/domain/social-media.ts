@@ -1,4 +1,5 @@
 export type SocialMedia = {
     link: string | URL | null | undefined,
-    icon: string
+    icon: string,
+    label: string
 };
