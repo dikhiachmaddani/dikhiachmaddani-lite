@@ -8,7 +8,11 @@ export const workExperiences: WorkExperience[] = [
         time: "internship",
         period: [new Date(2024, 10), new Date(2025, 5)],
         details: [
-            "Participate in the creation of the PAMA Tax System website using Nextjs and Ant Design both in fixing bugs, adding features to ensurethe code is in accordance with company standards.",
+            "Ensured frontend code adhered to company coding standards and best practices.",
+            "Resolved document download issues in the All Reporting Document module within SAP OTC.",
+            "Fixed minor and major bugs in the PAMA Tax System website to improve system reliability.",
+            "Applied Agile methodologies to streamline development workflows and enhance team collaboration.",
+            "Collaborated with cross-functional teams to deliver scalable, high-quality solutions."
         ],
         technologies: [
             "typescript",
@@ -24,21 +28,21 @@ export const workExperiences: WorkExperience[] = [
         time: "freelance",
         period: [new Date(2024, 2), new Date(2024, 9)],
         details: [
-            "Participated in creating the IPSPI website to search for social worker talents throughout Indonesia using laravel, tailwind and jquery.",
-            "Participated in creating the Olahkarsa website using Laravel, Bootstrap, Liveware and JQuery.",
-            "Participated in the creation of Open Journal System using springboot and nextjs.",
+            "Built IPSPI talent search platform with Laravel, Tailwind CSS, and jQuery, enabling nationwide search and filtering of verified social workers.",
+            "Developed an Open Journal System (OJS) with Spring Boot and Next.js to manage books, articles, journals, and issues, including submission, review, and journal publishing workflows.",
+            "Developed Olahkarsa corporate website using Laravel, Bootstrap, Livewire, and jQuery, with improvements to UI consistency, navigation flow, and optimized event certificate generation process."
         ],
         technologies: [
-            "typescript",
-            "next js",
-            "springboot",
             "postgresql",
-            "tailwind",
-            "ant design",
             "jquery",
             "bootstrap",
             "livewire",
-            "laravel"
+            "laravel",
+            "tailwind",
+            "typescript",
+            "ant design",
+            "springboot",
+            "next js"
         ],
     },
     {
@@ -48,7 +52,9 @@ export const workExperiences: WorkExperience[] = [
         time: "internship",
         period: [new Date(2024, 5), new Date(2024, 8)],
         details: [
-            "Participated in working on the Perumda Makassar Raya website project for the operational activity management system in Perumda Makassar.",
+            "Ensured application code complied with company standards and maintained high readability.",
+            "Implemented the Repository Pattern to manage parking resources, improving maintainability and scalability.",
+            "Collaborated with the development team to deliver stable and efficient features."
         ],
         technologies: [
             "jquery",
@@ -63,8 +69,9 @@ export const workExperiences: WorkExperience[] = [
         time: "freelance",
         period: [new Date(2023, 2), new Date(2024, 0)],
         details: [
-            "Developed a comprehensive parking management system for over 50 locations, including features like attendance tracking, mailing, field operations, and deposit monitoring.",
-            "Implemented the Repository Pattern to manage parking resources, improving system efficiency and scalability."
+            "Developed the Perumda Makassar Raya operational activity management system using Laravel, Bootstrap, and jQuery.",
+            "Implemented the Repository Pattern for parking resource management, enhancing system efficiency and scalability.",
+            "Worked closely with the team to deliver functional and user-friendly solutions."
         ],
         technologies: [
             "laravel",
@@ -80,8 +87,11 @@ export const workExperiences: WorkExperience[] = [
         time: "freelance",
         period: [new Date(2023, 0), new Date(2023, 2)],
         details: [
-            "Participate to create an API using node typescript for document search applications with blockchain technology.",
-            "Participate to create API using node typescript for digital land certificate application with blockchain technology.",
+            "Developed REST APIs using Node.js and TypeScript for document search applications integrated with blockchain technology.",
+            "Built backend APIs for digital land certificate applications leveraging blockchain for security and transparency.",
+            "Resolved blockchain-related issues to ensure smooth application operations.",
+            "Maintained code quality and adherence to company development standards.",
+            "Collaborated in a team environment to deliver robust and secure backend services."
         ],
         technologies: [
             "express js",
@@ -99,7 +109,7 @@ export const workExperiences: WorkExperience[] = [
         time: "internship",
         period: [new Date(2018, 11), new Date(2019, 2)],
         details: [
-            "Participated in the integration of attendance applications with fingerprint devices in each department in the city of Jember."
+            "Integrated attendance applications with fingerprint devices for multiple departments in the city of Jember."
         ],
         technologies: [
             "laravel"
