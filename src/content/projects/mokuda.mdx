@@ -1,10 +1,10 @@
 ---
-title: Mokuda
-date: 2023-12-17
-description: Aplikasi berbasis web untuk memantau kualitas udara di beberapa lokasi di Malang.
+title: Mokuda - Air Quality Monitoring
+date: 2024-05-01
+description: Air Quality Monitoring and Classification Using K-Nearest Neighbor in Malang City Area.
 type: personal
 featured: true
-draft: true
+draft: false
 stack:
     - ["React", "https://react.dev"]
     - ["Tailwind CSS", "https://tailwindcss.com"]
@@ -18,4 +18,38 @@ stack:
     - ["Platform IO", "https://platformio.org"]
 ---
 
-Air Quality Monitoring and Classification Using K-Nearest Neighbor in Malang City Area is a website-based system utilizing IoT sensors to monitor air quality. This website is based on Golang, React js, and MySQL.
+## System Description
+
+The **Air Quality Monitoring and Classification System** is designed to monitor real-time air conditions in the Malang City area using *Internet of Things* (IoT) technology and the *K-Nearest Neighbor* (KNN) classification method. The system utilizes an **ESP32** microcontroller connected to **MQ-131**, **MQ-135**, and **DSM501A** sensors to measure key air quality parameters such as Ozone (**O₃**), Nitrogen Dioxide (**NO₂**), Carbon Monoxide (**CO**), and Particulate Matter (**PM2.5**).
+
+Sensor data is transmitted via the **MQTT** protocol to a backend service for storage in a database. The data is then processed into the daily Air Pollution Standard Index (**ISPU**) based on the Indonesian Ministry of Environment and Forestry (KLHK) standards and classified using the **KNN** algorithm to generate air quality categories such as "Good", "Moderate", "Unhealthy", "Very Unhealthy", or "Hazardous". The results are displayed visually on a website, making them easy for the public to understand.
+
+---
+
+## Key Features
+
+### 1. Real-Time Air Quality Monitoring
+- Displays real-time measurements of air parameters (**O₃**, **NO₂**, **CO**, **PM2.5**).
+- Shows ISPU categories visually with colors and labels.
+
+### 2. Air Quality Classification using KNN
+- Uses the **KNN** algorithm to classify air quality based on sensor data.
+- Achieves up to **94% accuracy** in training data tests.
+
+### 3. Air Quality Data History Management
+- Stores hourly and daily historical data.
+- Allows admin to review and analyze air quality trends.
+
+### 4. News Portal
+- Admin can add, edit, and delete news related to air pollution and environmental issues.
+
+### 5. Air Station Location Configuration
+- Admin can add or adjust the location points of monitoring stations.
+
+### 6. User and Admin Access
+- **Users**: Can view ISPU information and detailed air quality data without logging in.
+- **Admins**: Can manage data, news, and station locations after logging in.
+
+### 7. Website Data Visualization
+- Interactive **React.js**-based dashboard for displaying data and air quality categories.
+- Map view of station locations for easier area exploration.
