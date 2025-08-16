@@ -4,6 +4,7 @@ export default {
     github: "https://github.com/dikhiachmaddani",
     linkedin: "https://www.linkedin.com/in/dikhiachmaddani",
     email: "dikhiachmaddani@gmail.com",
+    cv: "/assets/dikhiachmaddani_cv.pdf",
     description: "Dikhi Achmad Dani - fullstack developer.",
     keywords: [
         "personal",
